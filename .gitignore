@@ -1,0 +1,35 @@
+# Node.js / npm
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Archivos de construcción
+build/
+dist/
+*.bundle.js
+*.js.map
+
+# Archivos de configuración de desarrollo local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Archivos de caché
+.cache/
+
+# Dependencias generadas por Babel
+/.babelrc
+/.babelrc.js
+/.babelrc.json
+
+# Dependencias generadas por eslint
+/.eslintrc
+/.eslintrc.js
+/.eslintrc.json
+
+# Dependencias generadas por Jest
+/jest.config.js
+
+# Dependencias generadas por webpack
+/webpack.config.js
