@@ -39,21 +39,23 @@ export default function TablaProductos() {
     const myColumns = [
         //el field debe ser el mismo nombre de la propiedad del objeto, cada campo es una columna
         // { field: 'idCategoria', headerName: 'Id', width: 500 },
-        { field: 'nombre', headerName: 'Nombre', width: 400 },
+        { field: 'nombre', headerName: 'Nombre', width: 400, flex: 2 },
         // { field: 'descripcion', headerName: 'Descripción', width: 400 },
-        { field: 'precio', headerName: 'Precio', width: 400 , valueFormatter: (params) => `$${params.value.toFixed(2)}`, // Formatea el valor con el signo de peso y dos decimales
+        { field: 'precio', headerName: 'Precio', width: 400 ,flex: 2, valueFormatter: (params) => `$${params.value.toFixed(2)}`, // Formatea el valor con el signo de peso y dos decimales
       },
         { 
           field: 'idCategoriaNavigation', // Cambia el campo a 'idCategoriaNavigation'
           headerName: 'Categoria', 
           width: 400,
+          flex: 2,
           valueGetter: (params) => params.row.idCategoriaNavigation.nombre, // Accede a la propiedad 'nombre' de 'idCategoriaNavigation'
       },
         {
             field: 'actions',
             type: 'actions',
             headerName: 'Acciones',
-            width: 200,
+            width: 50,
+            flex: 1,
             cellClassName: 'actions',
             getActions: ({ id }) => {
               return [
