@@ -27,6 +27,7 @@ import {
   ShoppingBasket,
   ShoppingCart,
   Favorite,
+  LocalMall,
   History,
   AccountCircle,
   Help,
@@ -146,12 +147,12 @@ const NavBar = ({ children, themeSwitch }) => {
 
   // opciones de menu del proveedor, armo un arreglo con el Nombre que muestra, la url a la que redirecciona y el icono que muestra
   const providerOptions = [
-    { name: 'Gestión de Productos', route: '/manage-products', icon: <Store /> },
-    { name: 'Estadísticas de Ventas', route: '/sales-analytics', icon: <BarChart /> },
-    { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
-    { name: 'Valoraciones', route: '/reviews', icon: <RateReview /> },
-    { name: 'Ayuda y Soporte', route: '/help', icon: <Help /> },
-    { name: 'Configuración', route: '/settings', icon: <Settings /> },
+    { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
+    { name: 'Gestión de Sucursales', route: '/sucursales', icon: <Store /> },
+    // { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
+    // { name: 'Valoraciones', route: '/reviews', icon: <RateReview /> },
+    // { name: 'Ayuda y Soporte', route: '/help', icon: <BarChart /> },
+    // { name: 'Configuración', route: '/settings', icon: <Settings /> },
   ];
 
 
