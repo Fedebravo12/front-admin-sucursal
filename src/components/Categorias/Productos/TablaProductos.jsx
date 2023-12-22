@@ -1,9 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 
@@ -12,29 +9,7 @@ import {
     GridActionsCellItem
   } from '@mui/x-data-grid';
 
-export default function TablaProductos() {
-
- 
-
-    const [productos, setProductos] = useState([]);
-    const apiLocalKey = import.meta.env.VITE_APP_API_KEY
-
-    useEffect(() => {
-        getProductos()
-    }
-        , [])
-
-
-    const getProductos = async () => {
-        debugger;
-        try {
-            const res = await axios.get(apiLocalKey + '/productos')
-            setProductos(res.data.result.data)
-            console.log(res.data.result.data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+  const TablaProductos = ({ productos, onDelete, detalleProducto }) => {
 
     const myColumns = [
         //el field debe ser el mismo nombre de la propiedad del objeto, cada campo es una columna
@@ -63,15 +38,16 @@ export default function TablaProductos() {
                   icon={<EditIcon />}
                   label="Edit"
                   className="textPrimary"
-                //   onClick={}
+                  onClick={() => detalleProducto(id)} // Llamar a la función pasando el ID
                   color="inherit"
                 />,
                 <GridActionsCellItem
                 // icon={<DeleteIcon sx={{color:'red'}} />}
                 icon={<DeleteIcon />}
                   label="Delete"
-                //   onClick={}
                   color="inherit"
+                  onClick={() => onDelete(id)} // Llamar a la función pasando el ID
+
                 />,
               ];
             },
@@ -117,4 +93,6 @@ export default function TablaProductos() {
             />
         </Box>
     );
-}
+};
+
+export default TablaProductos;

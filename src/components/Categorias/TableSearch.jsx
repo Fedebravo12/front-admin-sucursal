@@ -53,14 +53,14 @@ export default function TableSearch() {
                   icon={<EditIcon />}
                   label="Edit"
                   className="textPrimary"
-                //   onClick={}
+                  onClick={() => detalleProducto(id)} // Llamar a la función pasando el ID
                   color="inherit"
                 />,
                 <GridActionsCellItem
                 // icon={<DeleteIcon sx={{color:'red'}} />}
                 icon={<DeleteIcon />}
                   label="Delete"
-                //   onClick={}
+                  onClick={() => onDelete(id)} // Llamar a la función pasando el ID
                   color="inherit"
                 />,
               ];
@@ -78,7 +78,7 @@ export default function TableSearch() {
                     pagination: { paginationModel: { pageSize: 5 } },
                   }}
                 pageSizeOptions={[10, 20, 30]}
-                rows={categorias}  // Usa tus propios datos aquí
+                rows={productos}  // Usa tus propios datos aquí
                 columns={myColumns}  // Usa tus propias columnas aquí
                 getRowId={(row) => row.idCategoria}
                 disableColumnFilter

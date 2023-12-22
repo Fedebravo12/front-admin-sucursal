@@ -20,11 +20,11 @@ import PinterestIcon from '@mui/icons-material/Pinterest';
 // Declaro un array de objetos con las propiedades id, name y route. 
 // Luego, en el componente ResponsiveAppBar, itero sobre ese array y muestro los elementos en el menú de navegación.
 //  El componente ResponsiveAppBar es el siguiente:
-const pagesNav = [
-  { id: 1, name: 'Productos', route: '/productos' },
-  { id: 2, name: 'Categorias', route: '/categorias' },
-  { id: 3, name: 'Blog', route: '/blog' }
-]
+// const pagesNav = [
+//   { id: 1, name: 'Productos', route: '/productos' },
+//   { id: 2, name: 'Categorias', route: '/categorias' },
+//   { id: 3, name: 'Blog', route: '/blog' }
+// ]
 
 const settings = [
   { id: 1, name: 'Perfil', route: '/perfil' },
@@ -128,7 +128,7 @@ function ResponsiveAppBar() {
               display: { xs: 'block', md: 'none' },
             }}
           >
-            {pagesNav.map((page) => (
+            {/* {pagesNav.map((page) => (
               <Link to={page.route.toLowerCase()} style={{ color: 'inherit', textDecoration: 'none' }}>
 
                 <MenuItem key={page.id} onClick={handleCloseNavMenu}>
@@ -136,12 +136,12 @@ function ResponsiveAppBar() {
                 </MenuItem>
               </Link>
 
-            ))}
+            ))} */}
           </Menu>
         </Box>
 
         {/* este box es para el menu de navegacion si esta la pantalla expandida */}
-        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+        {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
           {pagesNav.map((page) => (
             <Link to={page.route.toLowerCase()} style={{ color: 'inherit', textDecoration: 'none' }}>
 
@@ -153,7 +153,7 @@ function ResponsiveAppBar() {
 
               </Button>
             </Link>))}
-        </Box>
+        </Box> */}
 
 
 
