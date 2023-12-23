@@ -25,6 +25,9 @@ import {
           flex: 2,
           valueGetter: (params) => params.row.idCategoriaNavigation.nombre, // Accede a la propiedad 'nombre' de 'idCategoriaNavigation'
       },
+      // {field: 'descripcion' , headerName: 'Descripción', width: 400, flex: 2}
+      //   ,
+      //   {field: 'urlImagen' , headerName: 'Imagen', width: 400, flex: 2},
         {
             field: 'actions',
             type: 'actions',

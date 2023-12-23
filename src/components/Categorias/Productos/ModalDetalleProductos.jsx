@@ -23,6 +23,8 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
                 nombre: productos.nombre,
                 precio: productos.precio,
                 idCategoria: productos.idCategoriaNavigation.idCategoria,
+                descripcion: productos.descripcion,
+                urlImagen: productos.urlImagen,
             });
         }
     }, [productos, open, reset]);
@@ -147,7 +149,7 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
 
                             >
                                 <MenuItem value="" disabled>Seleccione una categoria</MenuItem>
-                              
+
                                 {categorias.map((categoria) => (
                                     <MenuItem key={categoria.idCategoria} value={categoria.idCategoria}>{categoria.nombre}</MenuItem>
                                 ))}
@@ -158,32 +160,53 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
                         </FormControl>
                     </Box>
 
-                    {/* <Box mt={3} mb={3}>
+                    <Box mt={3} mb={3}>
+                        <TextField fullWidth
+                            mb={2}
+                            label="descripcion"
+                            placeholder="Ingrese la descripcion del producto"
+                            InputLabelProps={{ shrink: true }}
+                            disabled={!isEditMode}
+                            value={productos?.descripcion}
 
-                        <FormControl fullWidth error={Boolean(errors.tipoPid)}>
-                            <InputLabel id="tipo-pid-label">Tipo PID</InputLabel>
-                            <Select
-                                value={watch("tipoPid")}
-                                labelId="tipo-pid-label"
-                                placeholder="Seleccione un tipo PID"
-                                id="tipo-pid-select"
-                                label="Tipo PID"
-                                {...register("tipoPid", { required: "Este campo es obligatorio" })}
-                                onChange={onTipoPidChange}
-                                disabled={!isEditMode}
+                            // value={pid?.director} 
 
-                            >
-                                <MenuItem value="" disabled>Seleccione un tipo PID</MenuItem>
-                                {tipoPids.map((tipoPid) => (
-                                    <MenuItem key={tipoPid.idTipoPid} value={tipoPid.idTipoPid}>{tipoPid.descripcion}</MenuItem>
-                                ))}
-                            </Select>
-                            <Typography variant="caption" color="error">
-                                {errors.tipoPid && errors.tipoPid.message}
-                            </Typography>
-                        </FormControl>
-                    </Box> */}
+                            {...register("descripcion",
+                                {
+                                    required: "la descripcion del producto es obligatorio",
+                                })
+                            }
+                            error={Boolean(errors.descripcion)}
+                            helperText={errors.descripcion && errors.descripcion.message}
 
+                        />
+
+
+                    </Box>
+
+                    <Box mt={3} mb={3}>
+                        <TextField fullWidth
+                            mb={2}
+                            label="urlImagen"
+                            placeholder="Ingrese la URL del producto"
+                            InputLabelProps={{ shrink: true }}
+                            disabled={!isEditMode}
+                            value={productos?.urlImagen}
+
+                            // value={pid?.director} 
+
+                            {...register("urlImagen",
+                                {
+                                    required: "la URL del producto es obligatoria",
+                                })
+                            }
+                            error={Boolean(errors.urlImagen)}
+                            helperText={errors.urlImagen && errors.urlImagen.message}
+
+                        />
+
+
+                    </Box>
                     {
                         isEditMode && (
                             <Box sx={{ textAlign: 'center', mt: 3 }}>

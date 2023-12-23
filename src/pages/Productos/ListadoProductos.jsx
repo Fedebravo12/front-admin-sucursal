@@ -200,7 +200,7 @@ const ListadoProductos = () => {
                     position: "center",
                     icon: "success",
                     allowOutsideClick: false,
-                    title: "PID editado correctamente",
+                    title: "Producto editado correctamente",
                     showConfirmButton: true,
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -240,6 +240,8 @@ const ListadoProductos = () => {
             setValue("nombre", res.data.result.data.nombre);
             setValue("idCategoria", res.data.result.data.idCategoriaNavigation.idCategoria);
             setValue("precio", res.data.result.data.precio);
+            setValue("descripcion", res.data.result.data.descripcion);
+            setValue("urlImagen", res.data.result.data.urlImagen);
 
 
             await hideLoadingModal();
@@ -262,10 +264,12 @@ const ListadoProductos = () => {
         }
         setIsEditMode(false);
         reset({
-            idProducto: "",
+            idProducto: "0",
             nombre: "",
             idCategoria: "",
             precio: "",
+            descripcion: "",
+            urlImagen: "",
         });
         setOpenModalDetalle(false);
     };
@@ -285,9 +289,12 @@ const ListadoProductos = () => {
         // Si se hace click en el botón de cancelar o en la X, se cierra el modal y se resetea el formulario
 
         reset({
+            idProducto: "0",
             nombre: "",
             idCategoria: "",
             precio: "",
+            descripcion: "",
+            urlImagen: "",
         });
         await setOpenModal(false);
     };

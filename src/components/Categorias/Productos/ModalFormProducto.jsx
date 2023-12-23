@@ -122,6 +122,48 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                             </Typography>
                         </FormControl>
                     </Box>
+
+                                    
+                    <Box mt={3} mb={3}>
+                        <TextField fullWidth
+                            mb={2}
+                            label="descripcion"
+                            placeholder="Ingrese la descripcion del producto"
+                            InputLabelProps={{ shrink: true }}
+
+                            {...register("descripcion",
+                                {
+                                    required: "la descripcion del producto es obligatoria",
+                        
+
+                                })
+                            }
+                            error={Boolean(errors.descripcion)}
+                            helperText={errors.descripcion && errors.descripcion.message}
+
+                        />
+                    </Box>
+
+                                              
+                    <Box mt={3} mb={3}>
+                        <TextField fullWidth
+                            mb={2}
+                            label="urlImagen"
+                            placeholder="Ingrese la URL del producto"
+                            InputLabelProps={{ shrink: true }}
+
+                            {...register("urlImagen",
+                                {
+                                    required: "la URL del producto es obligatoria",
+                        
+
+                                })
+                            }
+                            error={Boolean(errors.urlImagen)}
+                            helperText={errors.urlImagen && errors.urlImagen.message}
+
+                        />
+                    </Box>
                     {/* 
                     <Box mt={3} mb={3}>
                         <FormControl fullWidth error={Boolean(errors.tipoPid)}>
