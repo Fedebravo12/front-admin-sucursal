@@ -138,7 +138,7 @@ const NavBar = ({ children, themeSwitch }) => {
   // opciones de menu del cliente, armo un arreglo con el Nombre que muestra, la url a la que redirecciona y el icono que muestra
   const clientOptions = [
     { name: 'Pedidos', route: '/orders', icon: <ShoppingBasket /> },
-    { name: 'Carrito', route: '/cart', icon: <ShoppingCart /> },
+    { name: 'Gestion de Publicaciones', route: '/publicacionessucursal', icon: <ShoppingCart /> },
     { name: 'Favoritos', route: '/wishlist', icon: <Favorite /> },
     { name: 'Historial de Pedidos', route: '/order-history', icon: <History /> },
     { name: 'Mi Cuenta', route: '/account', icon: <AccountCircle /> },
