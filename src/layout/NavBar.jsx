@@ -95,6 +95,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
+    display: 'flex',
+    alignItems: 'center',
+    minHeight: '100vh', // Alto mínimo para ocupar toda la altura de la pantalla
+
     ...(open && {
       ...openedMixin(theme),
       '& .MuiDrawer-paper': openedMixin(theme),
@@ -128,7 +132,7 @@ const NavBar = ({ children, themeSwitch }) => {
 
   const { isDarkTheme, toggleTheme } = useContext(ThemeContext);
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
 
 
@@ -152,7 +156,7 @@ const NavBar = ({ children, themeSwitch }) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{backgroundColor:'#FACA05'}}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: '#FACA05' }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -177,39 +181,50 @@ const NavBar = ({ children, themeSwitch }) => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-    
+
         {/* El divider me separa las opciones de menu del cliente de las del proveedor */}
         <Divider />
-        <List>
-          {/* Recorro el arreglo de opciones de menu del proveedor y por cada una creo un item de la lista */}
-          {providerOptions.map((option) => (
-            <ListItem key={option.name} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton onClick={() => handleNavigation(option.route)}>
-                <ListItemIcon>{option.icon}</ListItemIcon>
-                <ListItemText primary={option.name} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-              
-            </ListItem>
-          ))}
-        </List>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'top', // Centra los elementos verticalmente
+            mt:5,
+            height: '100%', // Ocupa todo el alto disponible
+          }}
+        >
+          <List>
+            {/* Recorro el arreglo de opciones de menu del proveedor y por cada una creo un item de la lista */}
+            {providerOptions.map((option) => (
+              <ListItem key={option.name} disablePadding sx={{ display: 'block', mt:1 }}>
+                <ListItemButton onClick={() => handleNavigation(option.route)}>
+                  <ListItemIcon>{option.icon}</ListItemIcon>
+                  <ListItemText primary={option.name} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+
 
 
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt:8 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
         {/* {!isLoading && ( */}
-          <Card sx={{
-            backgroundColor: isDarkTheme ? '#000000' : '#F5F5F5',
-            borderRadius: 2,
-            padding: '20px 10px',
-            display: 'flex',
-            flexDirection: 'column', // Asegura que los hijos se apilen verticalmente
-            flexGrow: 1, // Permite que la Card se expanda
-            minHeight: '80vh', // Evita que la Card se colapse
-          }}>
-            <Grid spacing={2} justifyContent="center" sx={{ flexGrow: 1, maxWidth: 1, mb: 10 }}>
-              {children}
-            </Grid>
-          </Card>
+        <Card sx={{
+          backgroundColor: isDarkTheme ? '#000000' : '#F5F5F5',
+          borderRadius: 2,
+          padding: '20px 10px',
+          display: 'flex',
+          flexDirection: 'column', // Asegura que los hijos se apilen verticalmente
+          flexGrow: 1, // Permite que la Card se expanda
+          minHeight: '80vh', // Evita que la Card se colapse
+        }}>
+          <Grid spacing={2} justifyContent="center" sx={{ flexGrow: 1, maxWidth: 1, mb: 10 }}>
+            {children}
+          </Grid>
+        </Card>
 
         {/* )} */}
 
