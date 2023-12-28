@@ -182,10 +182,8 @@ const NavBar = ({ children, themeSwitch }) => {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider />
 
-        {/* El divider me separa las opciones de menu del cliente de las del proveedor */}
-        <Divider />
+        {/* <Divider /> */}
         <Box
           sx={{
             display: 'flex',
