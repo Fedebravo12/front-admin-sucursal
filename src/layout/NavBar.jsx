@@ -20,11 +20,11 @@ import ResponsiveAppBar from './ResponsiveAppBar';
 import { Card, Grid } from '@mui/material';
 import ThemeContext from './ThemeContext';
 import { useNavigate } from 'react-router-dom';
-import LocalMall from '@mui/icons-material/LocalMall';
 import {
   ShoppingBasket,
   ShoppingCart,
   Favorite,
+  LocalMall,
   History,
   AccountCircle,
   Help,
