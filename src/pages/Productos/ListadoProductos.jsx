@@ -40,9 +40,13 @@ const ListadoProductos = () => {
     useEffect(() => {
         const loadData = async () => {
             try {
+                const token = localStorage.getItem('token');
+                const headers = {
+                    Authorization: `Bearer ${token}`,
+                };
                 showLoadingModal();
                 const [productos, categorias] = await Promise.all([
-                    axios.get(apiLocalKey + '/productos'),
+                    axios.get(apiLocalKey + '/productos', { headers: headers }),
                     axios.get(apiLocalKey + '/categorias')
                 ]);
 

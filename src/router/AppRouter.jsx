@@ -1,24 +1,52 @@
-import { Routes,Route, Navigate } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 import Home from '../pages/Home';
 import ListadoCategoria from '../pages/Categoria/ListadoCategoria';
 import ListadoProductos from '../pages/Productos/ListadoProductos';
 import ListadoPublicaciones from '../pages/Publicaciones/ListadoPublicaciones';
+import AccesoDenegado from './AccesoDenegado';
+import ProtectedRoute from './ProtectedRoute';
+import Logout from '../components/User/Logout';
 
+const ProtectedHome = withAuthenticationRequired(Home);
 
 const AppRouter = () => {
-    return (
-        <div>
-            <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/productosadmin" element={<ListadoProductos/>} />
-                <Route path="/categorias" element={<ListadoCategoria />} />
-                <Route path="/publicacionessucursal" element={<ListadoPublicaciones/>}/>
-                {/* <Route path="*" element={ <Navigate to={"/home"}/> } /> */}
-            </Routes>
-           
-        </div>
-    )
-}
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const rol_admin = import.meta.env.VITE_APP_ROLE_ADMIN;
+  const rol_sucursal = import.meta.env.VITE_APP_ROLE_SUCURSAL;
+
+  return (
+    <Routes>
+      {/* Protect all routes */}
+      <Route
+        path="/*"
+        element={
+          isAuthenticated ? (
+            // Render the protected route
+            <Navigate to="/" />
+          ) : (
+            // Redirect to Auth0 login if not authenticated
+            <Navigate to="/login" replace={true} />
+          )
+        }
+      />
+
+      {/* Use loginWithRedirect as a function to avoid multiple redirects */}
+      <Route path="/login" element={loginWithRedirect} />
+
+      <Route path="/" element={<ProtectedHome />} />
+      <Route path="/productosadmin" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoProductos /></ProtectedRoute>} />
+      <Route path="/categorias" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoCategoria /></ProtectedRoute>} />
+      <Route path="/publicaciones" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoPublicaciones /></ProtectedRoute>} />
+      <Route path="/publicacionessucursal" element={<ListadoPublicaciones/>}/>
+
+
+      <Route path="/logout" element={<Logout />} />
+
+      <Route path="/acceso_denegado" element={<AccesoDenegado />} />
+    </Routes>
+  );
+};
 
 export default AppRouter;
