@@ -16,12 +16,6 @@ import { set } from "date-fns";
 
 
 
-
-
-
-
-
-
 const ListadoPublicaciones = () => {
     const {
         register,

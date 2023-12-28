@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import axios from 'axios'
@@ -7,12 +7,16 @@ import Container from "@mui/material/Container";
 import 'animate.css'
 import Home from './pages/Home'
 import AppRouter from './router/AppRouter';
+import { AuthContext, AuthProvider } from './components/User/AuthCOntext';
 
 
 // import './css/App.css'
 
 function App() {
-
+  const { initializationDone } = useContext(AuthContext);
+  if (!initializationDone) {
+    return ; 
+  }
 
 
   return (

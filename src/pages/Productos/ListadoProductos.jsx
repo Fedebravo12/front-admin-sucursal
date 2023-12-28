@@ -15,13 +15,6 @@ import Swal from 'sweetalert2';
 import { set } from "date-fns";
 
 
-
-
-
-
-
-
-
 const ListadoProductos = () => {
     const {
         register,

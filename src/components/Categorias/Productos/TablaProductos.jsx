@@ -16,7 +16,13 @@ import {
         // { field: 'idCategoria', headerName: 'Id', width: 500 },
         { field: 'nombre', headerName: 'Nombre', width: 400, flex: 2 },
         // { field: 'descripcion', headerName: 'Descripción', width: 400 },
-        { field: 'precio', headerName: 'Precio', width: 400 ,flex: 2, valueFormatter: (params) => `$${params.value.toFixed(2)}`, // Formatea el valor con el signo de peso y dos decimales
+        { field: 'precio', headerName: 'Precio', width: 400 ,flex: 2, valueFormatter: (params) => {
+          if (params.value !== null && typeof params.value !== 'undefined') {
+            return `$${params.value.toFixed(2)}`;
+          } else {
+            return '';
+          } // Add a semicolon at the end of the line
+        },
       },
         { 
           field: 'idCategoriaNavigation', // Cambia el campo a 'idCategoriaNavigation'
