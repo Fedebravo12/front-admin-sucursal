@@ -1,25 +1,18 @@
-import TablaProductos from "../../components/Categorias/Productos/TablaProductos";
+import TablaProductos from "../../components/Productos/TablaProductos.jsx";
 import React from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
-import LoadingModal from "../../components/Categorias/LoadingModal";
-import ModalDetalleProductos from "../../components/Categorias/Productos/ModalDetalleProductos";
-import ModalFormProducto from "../../components/Categorias/Productos/ModalFormProducto";
+import LoadingModal from "../../components/LoadingModal";
+import ModalDetalleProductos from "../../components/Productos/ModalDetalleProductos.jsx";
+import ModalFormProducto from "../../components/Productos/ModalFormProducto.jsx";
 import { Button } from "@mui/material";
-import BotonAgregar from "../../components/Categorias/BotonAgregar";
+import BotonAgregar from "../../components/BotonAgregar.jsx";
 import theme from '../../layout/theme.js';
 import Swal from 'sweetalert2';
 import { set } from "date-fns";
-
-
-
-
-
-
-
 
 
 const ListadoProductos = () => {
@@ -50,7 +43,7 @@ const ListadoProductos = () => {
                 showLoadingModal();
                 const [productos, categorias] = await Promise.all([
                     axios.get(apiLocalKey + '/productos'),
-                    // axios.get(apiLocalKey + '/categorias')
+                    axios.get(apiLocalKey + '/categorias')
                 ]);
 
                 setProductos(productos.data.result.data);
@@ -331,9 +324,9 @@ const ListadoProductos = () => {
                     Listado de Productos
                 </Typography>
 
-
-                <BotonAgregar onClick={handleOpenModal}></BotonAgregar>
-
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+                    <BotonAgregar onClick={handleOpenModal}></BotonAgregar>
+                </Box>
                 {/* Hago un componente para el modal, para que sea mas facil de leer */}
                 {/* Hago un componente para el modal, para que sea mas facil de leer */}
                 <ModalFormProducto

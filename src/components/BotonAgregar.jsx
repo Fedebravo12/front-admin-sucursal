@@ -13,6 +13,7 @@ variant="contained"
 color="primary"
 sx={{
     borderRadius: '10px',
+    right: 0,
     float: { xs: 'none', md: 'right' },  // Agrega float a la derecha en pantallas medianas y grandes, elimina en pantallas pequeñas
     marginBottom : '15px',
     fontSize: '1.1em',
