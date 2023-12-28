@@ -20,6 +20,7 @@ import ResponsiveAppBar from './ResponsiveAppBar';
 import { Card, Grid } from '@mui/material';
 import ThemeContext from './ThemeContext';
 import { useNavigate } from 'react-router-dom';
+import LocalMall from '@mui/icons-material/LocalMall';
 import {
   ShoppingBasket,
   ShoppingCart,
@@ -139,7 +140,8 @@ const NavBar = ({ children, themeSwitch }) => {
 
   // opciones de menu del proveedor, armo un arreglo con el Nombre que muestra, la url a la que redirecciona y el icono que muestra
   const providerOptions = [
-    { name: 'Gestión de Productos', route: '/manage-products', icon: <Store /> },
+    { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
+    { name: 'Gestión de Sucursales', route: '/sucursales', icon: <Store /> },
     { name: 'Estadísticas de Ventas', route: '/sales-analytics', icon: <BarChart /> },
     { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
   ];
