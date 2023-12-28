@@ -19,8 +19,8 @@ const Footer = () => {
                 padding: '0px 0'
             }}
         >
-            <Container maxWidth="lg">
-                <Grid container justifyContent="space-between" alignItems="center">
+            <Container maxWidth="lg" >
+                <Grid container justifyContent="space-between" alignItems="center" mt={5} >
                     <Grid item xs={12} md={6}>
                         <Typography align="right">
                             © {currentYear} Lo Que Mastica Tu Mascota. Todos los derechos reservados.
