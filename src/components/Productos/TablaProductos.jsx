@@ -70,7 +70,7 @@ const TablaProductos = ({ productos, onDelete, detalleProducto }) => {
         localeText={esES.components.MuiDataGrid.defaultProps.localeText}
 
         initialState={{
-          pagination: { paginationModel: { pageSize: 5 } },
+          pagination: { paginationModel: { pageSize: 10 } },
         }}
         pageSizeOptions={[10, 20, 30]}
         rows={productos}  // Usa tus propios datos aquí
