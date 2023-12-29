@@ -1,18 +1,17 @@
 import TablaProductos from "../../components/Productos/TablaProductos.jsx";
 import React from "react";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import LoadingModal from "../../components/LoadingModal";
 import ModalDetalleProductos from "../../components/Productos/ModalDetalleProductos.jsx";
 import ModalFormProducto from "../../components/Productos/ModalFormProducto.jsx";
-import { Button } from "@mui/material";
 import BotonAgregar from "../../components/BotonAgregar.jsx";
 import theme from '../../layout/theme.js';
 import Swal from 'sweetalert2';
 import { set } from "date-fns";
+import { de } from "date-fns/locale";
 
 
 const ListadoProductos = () => {
@@ -22,10 +21,38 @@ const ListadoProductos = () => {
         formState: { errors },
         reset,
         setValue,
-        watch
+        watch,
+        clearErrors,
+        setError,
     } = useForm();
 
     const [isEditMode, setIsEditMode] = useState(false);
+
+    const [selectedFile, setSelectedFile] = useState(null); // Nuevo estado para el archivo
+
+    // useEffect(() => {
+    //     register('archivo', { required: 'Se requiere una imagen' }); // Registra el campo de archivo
+    // }, [register]);
+
+    const handleFileChange = (event) => {
+        debugger;
+        const file = event.target.files[0];
+        if (file) {
+            if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+                setError('archivo', { type: 'manual', message: 'Solo se permiten imágenes (jpeg, png, jpg)' });
+                setSelectedFile(null);
+            } else {
+                clearErrors('archivo');
+                setSelectedFile(file);
+                setValue('archivo', file); // Actualiza el valor en React Hook Form
+            }
+        } else {
+            setSelectedFile(null);
+            setValue('archivo', null);
+            setError('archivo', { type: 'manual', message: 'Se requiere una imagen' });
+        }
+    };
+    
 
 
     const apiLocalKey = import.meta.env.VITE_APP_API_KEY;
@@ -146,8 +173,21 @@ const ListadoProductos = () => {
 };
 
     const onSubmit = async (data) => {
-        //Oculto el modal
+
+
+        // //manejo del archivo
+        // debugger;
+        // if (selectedFile) {
+        //     data.archivo = selectedFile;
+        // }
+        // else {
+        //     setError('archivo', { type: 'manual', message: 'Se requiere una imagen' });
+        //     return;
+        // }
+
         debugger;
+
+
         handleCloseModal();
 
         try {
@@ -295,7 +335,7 @@ const handleDetalleProducto = async (id) => {
         setValue("idCategoria", res.data.result.data.idCategoriaNavigation.idCategoria);
         setValue("precio", res.data.result.data.precio);
         setValue("descripcion", res.data.result.data.descripcion);
-        setValue("urlImagen", res.data.result.data.urlImagen);
+        // setValue("urlImagen", res.data.result.data.urlImagen);
 
 
         await hideLoadingModal();
@@ -323,7 +363,7 @@ const handleCloseModalDetalle = async (event, reason) => {
         idCategoria: "",
         precio: "",
         descripcion: "",
-        urlImagen: "",
+        // urlImagen: "",
     });
     setOpenModalDetalle(false);
 };
@@ -341,6 +381,9 @@ const handleCloseModal = async (event, reason) => {
     }
 
     // Si se hace click en el botón de cancelar o en la X, se cierra el modal y se resetea el formulario
+    setSelectedFile(null);
+    setValue('archivo', null);
+    clearErrors('archivo');
 
     reset({
         idProducto: "0",
@@ -348,7 +391,7 @@ const handleCloseModal = async (event, reason) => {
         idCategoria: "",
         precio: "",
         descripcion: "",
-        urlImagen: "",
+        // urlImagen: "",
     });
     await setOpenModal(false);
 };
@@ -397,6 +440,8 @@ return (
                 register={register}
                 errors={errors}
                 reset={reset}
+                selectedFile={selectedFile}
+                handleFileChange={handleFileChange}
             />
 
 

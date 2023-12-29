@@ -24,7 +24,7 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
                 precio: productos.precio,
                 idCategoria: productos.idCategoriaNavigation.idCategoria,
                 descripcion: productos.descripcion,
-                urlImagen: productos.urlImagen,
+                // urlImagen: productos.urlImagen,
             });
         }
     }, [productos, open, reset]);
@@ -184,7 +184,7 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
 
                     </Box>
 
-                    <Box mt={3} mb={3}>
+                    {/* <Box mt={3} mb={3}>
                         <TextField fullWidth
                             mb={2}
                             label="urlImagen"
@@ -206,7 +206,7 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
                         />
 
 
-                    </Box>
+                    </Box> */}
                     {
                         isEditMode && (
                             <Box sx={{ textAlign: 'center', mt: 3 }}>

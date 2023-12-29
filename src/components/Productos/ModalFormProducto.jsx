@@ -6,10 +6,11 @@ import FormControl from '@mui/material/FormControl';
 import 'dayjs/locale/en-gb';
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
 
-const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, errors, onCategoriaChange }) => {
+const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, errors, onCategoriaChange, selectedFile, handleFileChange }) => {
 
 
 
@@ -123,7 +124,7 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                         </FormControl>
                     </Box>
 
-                                    
+
                     <Box mt={3} mb={3}>
                         <TextField fullWidth
                             mb={2}
@@ -134,7 +135,7 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                             {...register("descripcion",
                                 {
                                     required: "la descripcion del producto es obligatoria",
-                        
+
 
                                 })
                             }
@@ -144,8 +145,8 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                         />
                     </Box>
 
-                                              
-                    <Box mt={3} mb={3}>
+
+                    {/* <Box mt={3} mb={3}>
                         <TextField fullWidth
                             mb={2}
                             label="urlImagen"
@@ -163,7 +164,46 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                             helperText={errors.urlImagen && errors.urlImagen.message}
 
                         />
+                    </Box> */}
+
+                    <Box display="flex" alignItems="center" mt={3} mb={3}>
+                        <Box flex="1">
+                            <TextField
+                                fullWidth
+                                label="Imagen"
+                                placeholder="Seleccione una imagen"
+                                value={selectedFile ? selectedFile.name : ''}
+                                InputLabelProps={{ shrink: true }}
+                                {...register("archivo",
+                                {
+                                    required: "La imagen es obligatoria",
+
+
+                                })
+                            }
+                                error={Boolean(errors.archivo)}
+                                helperText={errors.archivo ? errors.archivo.message : ''}
+                            />
+                        </Box>
+                        <Box ml={1}>
+                            <label htmlFor="upload-button">
+                                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />} type="button" size="small">
+                                    Imagen
+                                    <input
+                                        type="file"
+                                        id="upload-button"
+                                        style={{ display: 'none' }}
+                                        onChange={handleFileChange}
+                                        accept="image/*"                                      
+
+                                    />
+                                </Button>
+                            </label>
+                        </Box>
+
                     </Box>
+
+
                     {/* 
                     <Box mt={3} mb={3}>
                         <FormControl fullWidth error={Boolean(errors.tipoPid)}>
