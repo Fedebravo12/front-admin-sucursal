@@ -8,6 +8,7 @@ import ListadoProductos from '../pages/Productos/ListadoProductos';
 import ListadoPublicaciones from '../pages/Publicaciones/ListadoPublicaciones';
 import AccesoDenegado from './AccesoDenegado';
 import ProtectedRoute from './ProtectedRoute';
+import ListadoSucursales from '../pages/Sucursales/ListadoSucursales';
 
 const ProtectedHome = withAuthenticationRequired(Home);
 
@@ -39,6 +40,7 @@ const AppRouter = () => {
       <Route path="/categorias" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoCategoria /></ProtectedRoute>} />
       <Route path="/publicaciones" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoPublicaciones /></ProtectedRoute>} />
       <Route path="/about" element={<ProtectedRoute rolesRequired={[rol_admin]}><About /></ProtectedRoute>} />
+      <Route path="/sucursales" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoSucursales /></ProtectedRoute>} />
       <Route path="/acceso_denegado" element={<AccesoDenegado />} />
     </Routes>
   );
