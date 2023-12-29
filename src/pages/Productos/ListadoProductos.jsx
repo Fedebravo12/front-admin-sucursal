@@ -1,15 +1,15 @@
-import TablaProductos from "../../components/Categorias/Productos/TablaProductos";
+import TablaProductos from "../../components/Productos/TablaProductos.jsx";
 import React from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
-import LoadingModal from "../../components/Categorias/LoadingModal";
-import ModalDetalleProductos from "../../components/Categorias/Productos/ModalDetalleProductos";
-import ModalFormProducto from "../../components/Categorias/Productos/ModalFormProducto";
+import LoadingModal from "../../components/LoadingModal";
+import ModalDetalleProductos from "../../components/Productos/ModalDetalleProductos.jsx";
+import ModalFormProducto from "../../components/Productos/ModalFormProducto.jsx";
 import { Button } from "@mui/material";
-import BotonAgregar from "../../components/Categorias/BotonAgregar";
+import BotonAgregar from "../../components/BotonAgregar.jsx";
 import theme from '../../layout/theme.js';
 import Swal from 'sweetalert2';
 import { set } from "date-fns";
@@ -40,16 +40,23 @@ const ListadoProductos = () => {
     useEffect(() => {
         const loadData = async () => {
             try {
+                const token = localStorage.getItem('token');
+                const headers = {
+                    Authorization: `Bearer ${token}`,
+                };
                 showLoadingModal();
                 const [productos, categorias] = await Promise.all([
-                    axios.get(apiLocalKey + '/productos'),
+                    axios.get(apiLocalKey + '/productos', { headers: headers }),
                     axios.get(apiLocalKey + '/categorias')
                 ]);
 
-                setProductos(productos.data.result.data);
-                setCategorias(categorias.data.result.data);
+                await setProductos(productos.data.result.data);
+                await setCategorias(categorias.data.result.data);
             } catch (error) {
+                debugger;
                 console.log(error);
+                hideLoadingModal();
+
             } finally {
                 hideLoadingModal();
             }
@@ -82,8 +89,13 @@ const ListadoProductos = () => {
                 if (result.isConfirmed) {
                     showLoadingModal();
                     //si esta seguro, elimino la categoria
-
-                    const response = await axios.put(apiLocalKey + '/producto/' + id);
+                    const token = localStorage.getItem('token');
+                    const headers = {
+                        Authorization: `Bearer ${token}`
+                    };
+                    const response = await axios.put(apiLocalKey + '/producto/' + id,{
+                        headers: headers,
+                    });
                     //muestro el msj de exito
                     Swal.fire({
                         position: 'center',
@@ -91,6 +103,7 @@ const ListadoProductos = () => {
                         allowOutsideClick: false,
                         title: 'Producto eliminado correctamente',
                         showConfirmButton: true,
+                        confirmButtonText: 'Aceptar',
                     }).then((result) => {
                         if (result.isConfirmed) {
                             //aca deberia recargar el componente para que se vea la nueva categoria
@@ -103,205 +116,251 @@ const ListadoProductos = () => {
                     })
                 }
             })
-        } catch (error) {
+        } catch (error) {{
+            debugger;
             hideLoadingModal();
-            Swal.fire({
-                position: 'center',
-                icon: 'error',
-                allowOutsideClick: false,
-                title: 'Hubo un error al eliminar el producto',
-                showConfirmButton: true,
-            });
-        }
-    };
+            console.log(import.meta.env.VITE_APP_API_ERROR_CODE_FORBIDDEN);
     
+            if (error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_FORBIDDEN || error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_UNAUTHORIZED) {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    allowOutsideClick: false,
+                    title: "Hubo un error al eliminar el Producto",
+                    text: "No tienes permiso para realizar esta acción",
+                    showConfirmButton: true,
+                    confirmButtonText: 'Aceptar',
+                });
+            } else{
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                allowOutsideClick: false,
+                title: "Hubo un error al eliminar el Producto",
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
+    
+            });
+        }}
+    };
+};
+
     const onSubmit = async (data) => {
         //Oculto el modal
         debugger;
         handleCloseModal();
 
-
-        // if (!valida) {
-        //     Swal.fire({
-        //         position: "center",
-        //         icon: "error",
-        //         allowOutsideClick: false,
-        //         title:
-        //             "Las fechas son obligatorias y debe ingresar una fecha de inicio menor a la fecha de fin",
-        //         showConfirmButton: true,
-        //     });
-        //     return;
-        // } else {
-        //     try {
-                showLoadingModal();
-                //si esta seguro, elimino la categoria
-                const response = await axios.post(apiLocalKey + "/producto", data);  //falta el metodo!!!!!!!!!
-                // //muestro el msj de exito
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    allowOutsideClick: false,
-                    title: "Producto agregado correctamente",
-                    showConfirmButton: true,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        //aca deberia recargar el componente para que se vea la nueva categoria
-                        //Revierte el valor de reload para que se vuelva a ejecutar el useEffect
-                        //Cada vez que se cambia el valor de reload, se ejecuta el useEffect
-                        setReload((prev) => !prev);
-                        hideLoadingModal();
-                    }
-                });
-        //     } catch (error) {
-        //         hideLoadingModal();
-        //         Swal.fire({
-        //             position: "center",
-        //             icon: "error",
-        //             allowOutsideClick: false,
-        //             title: "Hubo un error al agregar el PID",
-        //             showConfirmButton: true,
-        //         });
-        //     }
-        // }
-    };
-    
-    const toggleEditMode = () => {
-        setIsEditMode(prev => !prev);
-    };
-
-    const onSubmitEdit = async (data) => {
-        debugger;
-        //Oculto el modal
-        handleCloseModalDetalle();
-
-        // if (!valida) {
-        //     Swal.fire({
-        //         position: "center",
-        //         icon: "error",
-        //         allowOutsideClick: false,
-        //         title:
-        //             "Las fechas son obligatorias y debe ingresar una fecha de inicio menor a la fecha de fin",
-        //         showConfirmButton: true,
-        //     });
-        //     return;
-        // } else {
-        //     try {
-                showLoadingModal();
-                const response = await axios.put(apiLocalKey + "/producto", data);
-                //muestro el msj de exito
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    allowOutsideClick: false,
-                    title: "Producto editado correctamente",
-                    showConfirmButton: true,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        //aca deberia recargar el componente para que se vea la nueva categoria
-                        //Revierte el valor de reload para que se vuelva a ejecutar el useEffect
-                        //Cada vez que se cambia el valor de reload, se ejecuta el useEffect
-                        setReload((prev) => !prev);
-                        hideLoadingModal();
-                    }
-                });
-            // } catch (error) {
-            //     hideLoadingModal();
-            //     Swal.fire({
-            //         position: "center",
-            //         icon: "error",
-            //         allowOutsideClick: false,
-            //         title: "Hubo un error al agregar el PID",
-            //         showConfirmButton: true,
-            //     });
-            // }
-        // }
-    };
-
-    
-    //Funciones para el modal de detalle de un PID
-
-    const handleDetalleProducto = async (id) => {
-        debugger;
         try {
             showLoadingModal();
-            const res = await axios.get(apiLocalKey + '/producto/' + id)
-            const producto = res.data.result.data;
-            setProducto(res.data.result.data);
-
-            // setProductosValues(producto);
-            setValue("idProducto", res.data.result.data.idProducto);
-            setValue("nombre", res.data.result.data.nombre);
-            setValue("idCategoria", res.data.result.data.idCategoriaNavigation.idCategoria);
-            setValue("precio", res.data.result.data.precio);
-            setValue("descripcion", res.data.result.data.descripcion);
-            setValue("urlImagen", res.data.result.data.urlImagen);
-
-
-            await hideLoadingModal();
-            await setOpenModalDetalle(true);
+            const token = localStorage.getItem('token');
+            const headers = {
+                Authorization: `Bearer ${token}`
+            };
+            //si esta seguro, elimino la categoria
+            const response = await axios.post(apiLocalKey + "/producto", data, {
+                headers: headers,
+            });  //falta el metodo!!!!!!!!!
+            // //muestro el msj de exito
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                allowOutsideClick: false,
+                title: "Producto agregado correctamente",
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    //aca deberia recargar el componente para que se vea la nueva categoria
+                    //Revierte el valor de reload para que se vuelva a ejecutar el useEffect
+                    //Cada vez que se cambia el valor de reload, se ejecuta el useEffect
+                    setReload((prev) => !prev);
+                    hideLoadingModal();
+                }
+            });
         } catch (error) {
-            console.log(error)
+            debugger;
             hideLoadingModal();
-        }
-    };
+            console.log(import.meta.env.VITE_APP_API_ERROR_CODE_FORBIDDEN);
+    
+            if (error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_FORBIDDEN || error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_UNAUTHORIZED) {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    allowOutsideClick: false,
+                    title: "Hubo un error al cargar el Producto",
+                    text: "No tienes permiso para realizar esta acción",
+                    showConfirmButton: true,
+                    confirmButtonText: 'Aceptar',
+                });
+            } else{
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                allowOutsideClick: false,
+                title: "Hubo un error al agregar el PID",
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
+    
+            });
+        }}
+    
+};
 
-    // const setProductosValues = (producto) => {
-    //     setValue("nombre", producto.nombre);
-    //     setValue("categoria", producto.idCategoria.idCategoria);
-    //     setValue("precio", producto.precio);
-    // };
+const toggleEditMode = () => {
+    setIsEditMode(prev => !prev);
+};
 
-    const handleCloseModalDetalle = async (event, reason) => {
-        if (reason == 'backdropClick') {
-            return;
-        }
-        setIsEditMode(false);
-        reset({
-            idProducto: "0",
-            nombre: "",
-            idCategoria: "",
-            precio: "",
-            descripcion: "",
-            urlImagen: "",
+const onSubmitEdit = async (data) => {
+    debugger;
+    //Oculto el modal
+    handleCloseModalDetalle();
+
+    try {
+        showLoadingModal();
+        const token = localStorage.getItem('token');
+        const headers = {
+            Authorization: `Bearer ${token}`
+        };
+
+        const response = await axios.put(apiLocalKey + "/producto", data, {
+            headers: headers,
         });
-        setOpenModalDetalle(false);
-    };
+        //muestro el msj de exito
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            allowOutsideClick: false,
+            title: "Producto editado correctamente",
+            showConfirmButton: true,
+            confirmButtonText: 'Aceptar',
 
-     //funciones para el modal, abrir y cerrar
-
-     const handleOpenModal = () => {
-        setOpenModal(true);
-    };
-
-    const handleCloseModal = async (event, reason) => {
-        // Si se hace click en el backdrop, no se cierra el modal
-        if (reason == 'backdropClick') {
-            return;
-        }
-
-        // Si se hace click en el botón de cancelar o en la X, se cierra el modal y se resetea el formulario
-
-        reset({
-            idProducto: "0",
-            nombre: "",
-            idCategoria: "",
-            precio: "",
-            descripcion: "",
-            urlImagen: "",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //aca deberia recargar el componente para que se vea la nueva categoria
+                //Revierte el valor de reload para que se vuelva a ejecutar el useEffect
+                //Cada vez que se cambia el valor de reload, se ejecuta el useEffect
+                setReload((prev) => !prev);
+                hideLoadingModal();
+            }
         });
-        await setOpenModal(false);
-    };
+    } catch (error) {
+        debugger;
+        hideLoadingModal();
+        console.log(import.meta.env.VITE_APP_API_ERROR_CODE_FORBIDDEN);
+
+        if (error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_FORBIDDEN || error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_UNAUTHORIZED) {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                allowOutsideClick: false,
+                title: "Hubo un error al editar el Producto",
+                text: "No tienes permiso para realizar esta acción",
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
+            });
+        } else{
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            allowOutsideClick: false,
+            title: "Hubo un error al agregar el PID",
+            showConfirmButton: true,
+            confirmButtonText: 'Aceptar',
+
+        });
+    }}
+
+};
 
 
-    // // const handleProductoChange = (event) => {
-    // //     setValue(event.target.value);
-    // // };
+//Funciones para el modal de detalle de un PID
 
-    const handleCategoriaChange = (event) => {
-        setValue("idCategoria", event.target.value, { shouldValidate: true });
+const handleDetalleProducto = async (id) => {
+    debugger;
+    try {
+        showLoadingModal();
+        const token = localStorage.getItem('token');
+        const headers = {
+            Authorization: `Bearer ${token}`
+        };
+        const res = await axios.get(apiLocalKey + '/producto/' + id,{
+            headers: headers,
+        })
+        const producto = res.data.result.data;
+        setProducto(res.data.result.data);
+
+        // setProductosValues(producto);
+        setValue("idProducto", res.data.result.data.idProducto);
+        setValue("nombre", res.data.result.data.nombre);
+        setValue("idCategoria", res.data.result.data.idCategoriaNavigation.idCategoria);
+        setValue("precio", res.data.result.data.precio);
+        setValue("descripcion", res.data.result.data.descripcion);
+        setValue("urlImagen", res.data.result.data.urlImagen);
+
+
+        await hideLoadingModal();
+        await setOpenModalDetalle(true);
+    } catch (error) {
+        console.log(error)
+        hideLoadingModal();
+    }
+};
+
+// const setProductosValues = (producto) => {
+//     setValue("nombre", producto.nombre);
+//     setValue("categoria", producto.idCategoria.idCategoria);
+//     setValue("precio", producto.precio);
+// };
+
+const handleCloseModalDetalle = async (event, reason) => {
+    if (reason == 'backdropClick') {
+        return;
+    }
+    setIsEditMode(false);
+    reset({
+        idProducto: "0",
+        nombre: "",
+        idCategoria: "",
+        precio: "",
+        descripcion: "",
+        urlImagen: "",
+    });
+    setOpenModalDetalle(false);
+};
+
+//funciones para el modal, abrir y cerrar
+
+const handleOpenModal = () => {
+    setOpenModal(true);
+};
+
+const handleCloseModal = async (event, reason) => {
+    // Si se hace click en el backdrop, no se cierra el modal
+    if (reason == 'backdropClick') {
+        return;
     }
 
-    
+    // Si se hace click en el botón de cancelar o en la X, se cierra el modal y se resetea el formulario
+
+    reset({
+        idProducto: "0",
+        nombre: "",
+        idCategoria: "",
+        precio: "",
+        descripcion: "",
+        urlImagen: "",
+    });
+    await setOpenModal(false);
+};
+
+
+// // const handleProductoChange = (event) => {
+// //     setValue(event.target.value);
+// // };
+
+const handleCategoriaChange = (event) => {
+    setValue("idCategoria", event.target.value, { shouldValidate: true });
+}
 
 
 
@@ -312,21 +371,24 @@ const ListadoProductos = () => {
 
 
 
-    return (
-        <>
 
-            <Box style={{ position: 'relative' }}>
 
-             <Typography variant="h4" component="h2" gutterBottom style={{ marginTop: '30px', marginBottom: '10px' }}>
+
+return (
+    <>
+
+        <Box style={{ position: 'relative' }}>
+
+            <Typography variant="h4" component="h2" gutterBottom style={{ marginTop: '30px', marginBottom: '10px' }}>
                 Listado de Productos
             </Typography>
 
-
-            <BotonAgregar onClick={handleOpenModal}></BotonAgregar>
-
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+                <BotonAgregar onClick={handleOpenModal}></BotonAgregar>
+            </Box>
             {/* Hago un componente para el modal, para que sea mas facil de leer */}
             {/* Hago un componente para el modal, para que sea mas facil de leer */}
-             <ModalFormProducto
+            <ModalFormProducto
                 open={openModal}
                 handleClose={handleCloseModal}
                 categorias={categorias}
@@ -353,23 +415,11 @@ const ListadoProductos = () => {
                 toggleEditMode={toggleEditMode}
             />
 
-            
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    spacing={{ xs: 2, md: 2 }}
-                    columns={{ xs: 1, sm: 2, md: 2, lg: 4, xl: 6 }}
-                >
-            <TablaProductos productos={productos} onDelete={handleDeleteProducto} detalleProducto={handleDetalleProducto}/>
-        </Grid>
-        </Box>
-        </>
-    );
 
+
+            <TablaProductos productos={productos} onDelete={handleDeleteProducto} detalleProducto={handleDetalleProducto} />
+        </Box>
+    </>
+);
 };
 export default ListadoProductos;
-
-
-

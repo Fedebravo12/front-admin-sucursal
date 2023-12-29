@@ -2,23 +2,24 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 import Home from '../pages/Home';
-import About from '../pages/About';
 import ListadoCategoria from '../pages/Categoria/ListadoCategoria';
 import ListadoProductos from '../pages/Productos/ListadoProductos';
 import ListadoPublicaciones from '../pages/Publicaciones/ListadoPublicaciones';
 import AccesoDenegado from './AccesoDenegado';
 import ProtectedRoute from './ProtectedRoute';
+import Logout from '../components/User/Logout';
 
 const ProtectedHome = withAuthenticationRequired(Home);
 
 const AppRouter = () => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const rol_admin = import.meta.env.VITE_APP_ROLE_ADMIN;
+  const rol_sucursal = import.meta.env.VITE_APP_ROLE_SUCURSAL;
 
   return (
     <Routes>
       {/* Protect all routes */}
-      <Route
+      {/* <Route
         path="/*"
         element={
           isAuthenticated ? (
@@ -29,16 +30,23 @@ const AppRouter = () => {
             <Navigate to="/login" replace={true} />
           )
         }
-      />
+      /> */}
 
       {/* Use loginWithRedirect as a function to avoid multiple redirects */}
-      <Route path="/login" element={loginWithRedirect} />
+      {/* <Route path="/login" element={loginWithRedirect} /> */}
 
-      <Route path="/" element={<ProtectedHome />} />
-      <Route path="/productos" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoProductos /></ProtectedRoute>} />
+      {/* <Route path="/" element={<ProtectedHome />} /> */}
+      
+      <Route path="/" element={<ProtectedRoute rolesRequired={[rol_admin,rol_sucursal]}><Home /></ProtectedRoute>} />
+      <Route path="/productosadmin" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoProductos /></ProtectedRoute>} />
       <Route path="/categorias" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoCategoria /></ProtectedRoute>} />
       <Route path="/publicaciones" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoPublicaciones /></ProtectedRoute>} />
-      <Route path="/about" element={<ProtectedRoute rolesRequired={[rol_admin]}><About /></ProtectedRoute>} />
+      <Route path="/publicacionessucursal" element={<ListadoPublicaciones/>}/>
+      <Route path="/sucursales" element={<ProtectedRoute rolesRequired={[rol_sucursal]}><ListadoCategoria /></ProtectedRoute>} />
+
+
+      <Route path="/logout" element={<Logout />} />
+
       <Route path="/acceso_denegado" element={<AccesoDenegado />} />
     </Routes>
   );

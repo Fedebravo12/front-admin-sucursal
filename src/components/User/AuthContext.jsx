@@ -14,17 +14,26 @@ export const AuthProvider = ({ children }) => {
   const { showLoadingModal, hideLoadingModal } = LoadingModal();
 
   const apiLocalKey = import.meta.env.VITE_APP_API_KEY;
+  const rol_admin = import.meta.env.VITE_APP_ROLE_ADMIN;
+  const rol_sucursal = import.meta.env.VITE_APP_ROLE_SUCURSAL;
+  const rol_client = import.meta.env.VITE_APP_ROLE_CLIENT;
+  const url_app_cliente = import.meta.env.VITE_APP_URL_APP_CLIENTE;
 
   const fetchTokenAndRole = async () => {
     try {
       showLoadingModal();
+      
 
       if (!isLoading && isAuthenticated) {
         const tokenClaims = await getIdTokenClaims();
-        if (tokenClaims.rol_usuario.length === 0) {
-          window.location.reload();
+        debugger;
+
+        if (tokenClaims.rol_usuario.length === 0 || tokenClaims.rol_usuario.includes(rol_client)) {
+          window.location.href = url_app_cliente;
 
         }
+
+
 
         setUserToken(tokenClaims.__raw);
         localStorage.setItem('token', tokenClaims.__raw);
@@ -36,13 +45,13 @@ export const AuthProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         };
 
-        const response = await axios.post(
-          apiLocalKey + '/cargarUsuario',
-          { nombreUsuario: user.name, email: user.email, imagenUsuario: user.picture },
-          {
-            headers: headers,
-          }
-        );
+        // const response = await axios.post(
+        //   apiLocalKey + '/cargarUsuario',
+        //   { nombreUsuario: user.name, email: user.email, imagenUsuario: user.picture },
+        //   {
+        //     headers: headers,
+        //   }
+        // );
 
         setInitializationDone(true);
       } else if (!isLoading && !isAuthenticated) {
