@@ -19,7 +19,7 @@ const AppRouter = () => {
   return (
     <Routes>
       {/* Protect all routes */}
-      <Route
+      {/* <Route
         path="/*"
         element={
           isAuthenticated ? (
@@ -30,16 +30,19 @@ const AppRouter = () => {
             <Navigate to="/login" replace={true} />
           )
         }
-      />
+      /> */}
 
       {/* Use loginWithRedirect as a function to avoid multiple redirects */}
-      <Route path="/login" element={loginWithRedirect} />
+      {/* <Route path="/login" element={loginWithRedirect} /> */}
 
-      <Route path="/" element={<ProtectedHome />} />
+      {/* <Route path="/" element={<ProtectedHome />} /> */}
+      
+      <Route path="/" element={<ProtectedRoute rolesRequired={[rol_admin,rol_sucursal]}><Home /></ProtectedRoute>} />
       <Route path="/productosadmin" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoProductos /></ProtectedRoute>} />
       <Route path="/categorias" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoCategoria /></ProtectedRoute>} />
       <Route path="/publicaciones" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoPublicaciones /></ProtectedRoute>} />
       <Route path="/publicacionessucursal" element={<ListadoPublicaciones/>}/>
+      <Route path="/sucursales" element={<ProtectedRoute rolesRequired={[rol_sucursal]}><ListadoCategoria /></ProtectedRoute>} />
 
 
       <Route path="/logout" element={<Logout />} />

@@ -27,16 +27,12 @@ export const AuthProvider = ({ children }) => {
       if (!isLoading && isAuthenticated) {
         const tokenClaims = await getIdTokenClaims();
         debugger;
-        if (tokenClaims.rol_usuario.length === 0) {
-          window.location.reload();
 
-        }
-
-        if (tokenClaims.rol_usuario.includes(rol_client)) {
-
-          //redirecciono a la pagina de sucursal y admin 
+        if (tokenClaims.rol_usuario.length === 0 || tokenClaims.rol_usuario.includes(rol_client)) {
           window.location.href = url_app_cliente;
+
         }
+
 
 
         setUserToken(tokenClaims.__raw);

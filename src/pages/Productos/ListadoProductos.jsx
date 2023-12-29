@@ -50,15 +50,15 @@ const ListadoProductos = () => {
                     axios.get(apiLocalKey + '/categorias')
                 ]);
 
-                setProductos(productos.data.result.data);
-                setCategorias(categorias.data.result.data);
+                await setProductos(productos.data.result.data);
+                await setCategorias(categorias.data.result.data);
             } catch (error) {
                 debugger;
                 console.log(error);
                 hideLoadingModal();
 
             } finally {
-                hideLoadingModal();
+                 hideLoadingModal();
             }
         };
 
