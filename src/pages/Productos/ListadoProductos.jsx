@@ -10,8 +10,7 @@ import ModalFormProducto from "../../components/Productos/ModalFormProducto.jsx"
 import BotonAgregar from "../../components/BotonAgregar.jsx";
 import theme from '../../layout/theme.js';
 import Swal from 'sweetalert2';
-import { set } from "date-fns";
-import { de } from "date-fns/locale";
+
 
 
 const ListadoProductos = () => {
@@ -64,6 +63,8 @@ const ListadoProductos = () => {
     const [openModal, setOpenModal] = useState(false);
     const [openModalDetalle, setOpenModalDetalle] = useState(false);
 
+
+
     useEffect(() => {
         const loadData = async () => {
             try {
@@ -79,6 +80,7 @@ const ListadoProductos = () => {
 
                 await setProductos(productos.data.result.data);
                 await setCategorias(categorias.data.result.data);
+                
             } catch (error) {
                 debugger;
                 console.log(error);
@@ -191,16 +193,37 @@ const ListadoProductos = () => {
         handleCloseModal();
 
         try {
+
+            
             showLoadingModal();
+            const formData = new FormData();
+
+            // Agregar datos del formulario
+            formData.append('nombre', data.nombre);
+            formData.append('precio', data.precio);
+            formData.append('idCategoria', data.idCategoria);
+            formData.append('descripcion', data.descripcion);
+        
+            // Agregar el archivo si está seleccionado
+            if (selectedFile) {
+                formData.append('archivo', selectedFile);
+            } else {
+                setError('archivo', { type: 'manual', message: 'Se requiere una imagen' });
+                return;
+            }
+        
+
+
             const token = localStorage.getItem('token');
-            const headers = {
-                Authorization: `Bearer ${token}`
+            const options = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`, // Asegúrate de incluir el token aquí
+                }
             };
             //si esta seguro, elimino la categoria
-            const response = await axios.post(apiLocalKey + "/producto", data, {
-                headers: headers,
-            });  //falta el metodo!!!!!!!!!
-            // //muestro el msj de exito
+            const response = await axios.post(apiLocalKey + "/producto", formData, options);
+            debugger;
             Swal.fire({
                 position: "center",
                 icon: "success",
