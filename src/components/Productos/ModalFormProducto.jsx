@@ -3,16 +3,14 @@
 import { Box, Typography, TextField, Button, Modal } from "@mui/material";
 import { Select, MenuItem, InputLabel } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
-import 'dayjs/locale/en-gb';
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import InputAdornment from '@mui/material/InputAdornment';
 
 
 
 const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, errors, onCategoriaChange, selectedFile, handleFileChange }) => {
-
-
 
 
     return (
@@ -62,7 +60,7 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
 
                             {...register("nombre",
                                 {
-                                    required: "El nombre del Producto es obligatorio",
+                                    required: "El nombre del producto es obligatorio",
                                     pattern: {
                                         value: /^[a-zA-ZáéíóúÁÉÍÓÚ\s]*$/, // Permitir letras y tildes
                                         message: "El nombre debe contener solo letras"
@@ -83,6 +81,9 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                             label="Precio"
                             placeholder="Ingrese el precio del producto"
                             InputLabelProps={{ shrink: true }}
+                            InputProps={{
+                                startAdornment: <InputAdornment position="start">$</InputAdornment>
+                            }}
 
                             {...register("precio",
                                 {
@@ -103,17 +104,17 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                     <Box mt={3} mb={3}>
 
                         <FormControl fullWidth error={Boolean(errors.idCategoria)}>
-                            <InputLabel id="categoria-label">Categoria</InputLabel>
+                            <InputLabel id="categoria-label">Categoría</InputLabel>
                             <Select
                                 labelId="categoria-label"
-                                placeholder="Seleccione una categoria"
+                                placeholder="Seleccione una categoría"
                                 id="categoria-select"
                                 label="Categoria"
-                                {...register("idCategoria", { required: "Este campo es obligatorio" })}
+                                {...register("idCategoria", { required: "La categoría del producto es obligatoria" })}
                                 onChange={onCategoriaChange}
                                 defaultValue="" // Asegúrate de que el valor por defecto sea ""
                             >
-                                <MenuItem value="" disabled>Seleccione una categoria</MenuItem>
+                                <MenuItem value="" disabled>Seleccione una categoría</MenuItem>
                                 {categorias.map((categoria) => (
                                     <MenuItem key={categoria.idCategoria} value={categoria.idCategoria}>{categoria.nombre}</MenuItem>
                                 ))}
@@ -134,7 +135,7 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
 
                             {...register("descripcion",
                                 {
-                                    required: "la descripcion del producto es obligatoria",
+                                    required: "La descripción del producto es obligatoria",
 
 
                                 })
