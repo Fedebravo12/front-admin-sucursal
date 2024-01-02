@@ -41,7 +41,7 @@ const AppRouter = () => {
       <Route path="/productosadmin" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoProductos /></ProtectedRoute>} />
       <Route path="/categorias" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoCategoria /></ProtectedRoute>} />
       <Route path="/publicaciones" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoPublicaciones /></ProtectedRoute>} />
-      <Route path="/publicacionessucursal" element={<ListadoPublicaciones/>}/>
+      <Route path="/publicacionessucursal" element={<ProtectedRoute rolesRequired={[rol_sucursal]}><ListadoPublicaciones/></ProtectedRoute>}/>
       <Route path="/sucursales" element={<ProtectedRoute rolesRequired={[rol_sucursal]}><ListadoCategoria /></ProtectedRoute>} />
 
 

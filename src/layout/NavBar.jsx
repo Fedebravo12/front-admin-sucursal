@@ -20,6 +20,7 @@ import ResponsiveAppBar from './ResponsiveAppBar';
 import { Card, Grid } from '@mui/material';
 import ThemeContext from './ThemeContext';
 import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   ShoppingBasket,
   ShoppingCart,
@@ -119,11 +120,12 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const NavBar = ({ children, themeSwitch }) => {
 
+  const { user, isAuthenticated } = useAuth0();
+
 
   const navigate = useNavigate();
 
   const handleNavigation = (route) => {
-    debugger;
     navigate(route);
     //este metodo es para cerrar el menu cuando se hace click en un item
     // handleDrawerClose();
@@ -139,12 +141,38 @@ const NavBar = ({ children, themeSwitch }) => {
 
 
   // opciones de menu del proveedor, armo un arreglo con el Nombre que muestra, la url a la que redirecciona y el icono que muestra
-  const providerOptions = [
+  // const providerOptions = [
+  //   { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
+  //   { name: 'Gestión de Sucursales', route: '/sucursales', icon: <Store /> },
+  //   { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
+  //   { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
+  // ];
+  let settings = [
     { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
     { name: 'Gestión de Sucursales', route: '/sucursales', icon: <Store /> },
-    { name: 'Estadísticas de Ventas', route: '/sales-analytics', icon: <BarChart /> },
+    { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
     { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
   ];
+
+ 
+debugger;
+
+  // console.log(user)
+  // if (user.rol_usuario.indexOf("Administrador") !== -1) {
+  //   let settings = [
+  //     { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
+  //     { name: 'Gestión de Sucursales', route: '/sucursales', icon: <Store /> },
+  //     { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
+  //     { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
+  //   ];
+  // }
+  // if (user.rol[0] == "sucursal") {
+  //   let settings = [
+  //     { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
+  //     { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
+  //     { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
+  //   ];
+  // }
 
 
   const handleDrawerOpen = () => {
@@ -189,14 +217,14 @@ const NavBar = ({ children, themeSwitch }) => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'top', // Centra los elementos verticalmente
-            mt:5,
+            mt: 5,
             height: '100%', // Ocupa todo el alto disponible
           }}
         >
           <List>
             {/* Recorro el arreglo de opciones de menu del proveedor y por cada una creo un item de la lista */}
-            {providerOptions.map((option) => (
-              <ListItem key={option.name} disablePadding sx={{ display: 'block', mt:1 }}>
+            {settings.map((option) => (
+              <ListItem key={option.name} disablePadding sx={{ display: 'block', mt: 1 }}>
                 <ListItemButton onClick={() => handleNavigation(option.route)}>
                   <ListItemIcon>{option.icon}</ListItemIcon>
                   <ListItemText primary={option.name} sx={{ opacity: open ? 1 : 0 }} />

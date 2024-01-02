@@ -14,20 +14,21 @@ import EditIcon from '@mui/icons-material/Edit';
 
 
 
-const ModalDetallePublicaciones = ({ open, handleClose, publicaciones, categorias, onSubmit, register, errors, reset, watch, onCategoriaChange, isEditMode, toggleEditMode }) => {
+const ModalDetallePublicaciones = ({ open, handleClose, publicacion, onSubmit, register, errors, reset, watch, isEditMode, toggleEditMode }) => {
 
     useEffect(() => {
-        if (publicaciones && open) {
+        if (publicacion && open) {
             reset({
-                idProducto: productos.idProducto,
-                nombre: productos.nombre,
-                precio: productos.precio,
-                idCategoria: productos.idCategoriaNavigation.idCategoria,
-                descripcion: productos.descripcion,
-                urlImagen: productos.urlImagen,
+                idPublicacion: publicacion.idPublicacion,
+                nombre: publicacion.idProductoNavigation.nombre,
+                stock: publicacion.stock,
+                precio: publicacion.idProductoNavigation.precio,
+                categoria: publicacion.idProductoNavigation.idCategoriaNavigation.nombre,
+                descripcion: publicacion.idProductoNavigation.descripcion,
+                urlImagen: publicacion.idProductoNavigation.urlImagen,
             });
         }
-    }, [publicaciones, open, reset]);
+    }, [publicacion, open, reset]);
 
 
     return (
@@ -65,34 +66,32 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicaciones, categoria
                     <CloseIcon />
                 </IconButton>
                 <Typography id="modal-title" variant="h5" component="h2">
-                    Detalle Producto
-                    <IconButton onClick={toggleEditMode}>
-                        <EditIcon />
-                    </IconButton>
+                    Detalle Publicacion
+
                 </Typography>
                 <Box mt={3} mb={3}>
 
                     <TextField
                         type="hidden"
                         style={{ display: 'none' }} // Asegúrate de que esté oculto
-                        {...register("idProducto")}
-                        defaultValue={productos?.idProducto}
+                        {...register("idPublicacion")}
+                        defaultValue={publicacion?.idPublicacion}
                     />
 
                     <Box mt={2}>
                         <TextField fullWidth
                             label="Nombre del Producto"
                             placeholder="Ingrese el nombre del Producto"
-                            // value={pid?.denominacion} 
                             InputLabelProps={{ shrink: true }}
-                            disabled={!isEditMode}
-                            value={productos?.nombre}
+                            // disabled={!isEditMode}
+                            disabled={true}
+                            value={publicacion?.nombre}
 
                             {...register("nombre",
                                 {
                                     required: "El nombre del Producto es obligatorio",
                                     // pattern: {
-                                    //     value: /^.*\S.*$/, // Verificar que no esté vacío
+                                    //     value: /^.\S.$/, // Verificar que no esté vacío
                                     //     message: "El nombre debe contener solo letras"
                                     // }
 
@@ -110,8 +109,8 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicaciones, categoria
                             label="Precio"
                             placeholder="Ingrese el precio del producto"
                             InputLabelProps={{ shrink: true }}
-                            disabled={!isEditMode}
-                            value={productos?.precio}
+                            disabled={true}
+                            value={publicacion?.precio}
 
                             // value={pid?.director} 
 
@@ -133,6 +132,35 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicaciones, categoria
 
                     </Box>
 
+                    <Box mt={3} mb={3}>
+                        <TextField fullWidth
+                            mb={2}
+                            label="Categoria"
+                            placeholder="Ingrese el precio del producto"
+                            InputLabelProps={{ shrink: true }}
+                            disabled={true}
+                            value={publicacion?.categoria}
+
+                            // value={pid?.director} 
+
+                            {...register("categoria",
+                                {
+                                    required: "El precio del producto es obligatorio",
+                                    pattern: {
+                                        value: /^[0-9.]+$/, // Expresión regular que permite solo números y puntos
+                                        message: "Ingrese un valor válido para el precio",
+                                    }
+
+                                })
+                            }
+
+                        />
+
+
+                    </Box>
+
+
+                    {/* 
                     <Box mt={3} mb={3}>
 
                         <FormControl fullWidth error={Boolean(errors.idCategoria)}>
@@ -158,16 +186,16 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicaciones, categoria
                                 {errors.idCategoria && errors.idCategoria.message}
                             </Typography>
                         </FormControl>
-                    </Box>
+                    </Box> */}
 
-                    <Box mt={3} mb={3}>
+                    {/* <Box mt={3} mb={3}>
                         <TextField fullWidth
                             mb={2}
                             label="descripcion"
                             placeholder="Ingrese la descripcion del producto"
                             InputLabelProps={{ shrink: true }}
                             disabled={!isEditMode}
-                            value={productos?.descripcion}
+                            value={publicacion?.descripcion}
 
                             // value={pid?.director} 
 
@@ -182,7 +210,7 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicaciones, categoria
                         />
 
 
-                    </Box>
+                    </Box> */}
 
                     <Box mt={3} mb={3}>
                         <TextField fullWidth
@@ -190,8 +218,8 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicaciones, categoria
                             label="urlImagen"
                             placeholder="Ingrese la URL del producto"
                             InputLabelProps={{ shrink: true }}
-                            disabled={!isEditMode}
-                            value={productos?.urlImagen}
+                            disabled={true}
+                            value={publicacion?.urlImagen}
 
                             // value={pid?.director} 
 
@@ -203,6 +231,33 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicaciones, categoria
                             error={Boolean(errors.urlImagen)}
                             helperText={errors.urlImagen && errors.urlImagen.message}
 
+                        />
+
+
+                    </Box>
+                    <Typography id="modal-title" variant="h5" component="h2">
+                        Modificar Stock
+                        <IconButton onClick={toggleEditMode}>
+                            <EditIcon />
+                        </IconButton>
+                    </Typography>
+                    <Box mt={3} mb={3}>
+                        <TextField
+                            fullWidth
+                            mb={2}
+                            label="Stock"
+                            placeholder="Ingrese el stock del producto"
+                            InputLabelProps={{ shrink: true }}
+                            disabled={!isEditMode}
+                            {...register("stock", {
+                                required: "El stock del producto es obligatorio",
+                                pattern: {
+                                    value: /^[0-9]+$/, // Expresión regular que permite solo números y puntos
+                                    message: "Ingrese un valor válido para el stock",
+                                }
+                            })}
+                            error={Boolean(errors.stock)}
+                            helperText={errors.stock && errors.stock.message}
                         />
 
 
