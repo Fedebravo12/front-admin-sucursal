@@ -29,7 +29,7 @@ const AccesoDenegado = () => {
         //         Volver al inicio
         //     </Button>
         // </Box>
-        <h2>sdadsa</h2>
+        <h2>acceso denegado</h2>
     );
 }
 
