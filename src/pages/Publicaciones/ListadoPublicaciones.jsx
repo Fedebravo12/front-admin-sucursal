@@ -45,8 +45,15 @@ const ListadoPublicaciones = () => {
             debugger;
             try {
                 showLoadingModal();
+                const token = localStorage.getItem('token');
+                const options = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${token}`, // Asegúrate de incluir el token aquí
+                    }
+                };
                 const [publicaciones] = await Promise.all([
-                    axios.get(apiLocalKey + '/publicaciones')
+                    axios.get(apiLocalKey + '/publicacionesRolSucursal', options   )
                 ]);
 
                 setPublicaciones(publicaciones.data.result.data);

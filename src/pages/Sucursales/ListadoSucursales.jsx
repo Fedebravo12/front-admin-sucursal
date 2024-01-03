@@ -10,6 +10,8 @@ import FormModal from '../../components/FormModal.jsx';
 import DetailModal from '../../components/DetailModal.jsx';
 import GenericTable from '../../components/GenericTable.jsx';
 
+
+
 const ListadoSucursales = () => {
   const {
     register,
@@ -57,7 +59,8 @@ const ListadoSucursales = () => {
         // console.log('Sucursales Data:', sucursales);
         // const sucursalesArray = sucursalesResponse.data.result;
 
-        setSucursales(sucurales.data.result.data);
+        setSucursales(sucursales.data.result.data);
+        console.log(sucursales);
 
       } catch (error) {
         console.log(error);
@@ -70,7 +73,7 @@ const ListadoSucursales = () => {
   }, [reload]);
 
 
-  console.log('Sucursales Data:', sucursales);
+  // console.log('Sucursales Data:', sucursales);
 
 
   const handleDeleteSucursal = async (id) => {

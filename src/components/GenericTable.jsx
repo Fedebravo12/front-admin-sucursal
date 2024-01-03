@@ -11,7 +11,7 @@ const GenericTable = ({ rows, columns, getRowId, onDelete, onDetail }) => {
     <Box sx={{ height: 600, width: 1, display: 'grid' }}>
       <DataGrid
         initialState={{
-          pagination: { paginationModel: { pageSize: 5 } },
+          pagination: { paginationModel: { pageSize: 10 } },
         }}
         pageSizeOptions={[10, 20, 30]}
         rows={rows}
