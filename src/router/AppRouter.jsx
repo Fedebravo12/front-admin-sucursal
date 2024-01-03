@@ -8,6 +8,7 @@ import ListadoPublicaciones from '../pages/Publicaciones/ListadoPublicaciones';
 import AccesoDenegado from './AccesoDenegado';
 import ProtectedRoute from './ProtectedRoute';
 import Logout from '../components/User/Logout';
+import ListadoSucursales from '../pages/Sucursales/ListadoSucursales';
 
 const ProtectedHome = withAuthenticationRequired(Home);
 
@@ -42,11 +43,13 @@ const AppRouter = () => {
       <Route path="/categorias" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoCategoria /></ProtectedRoute>} />
       <Route path="/publicaciones" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoPublicaciones /></ProtectedRoute>} />
       <Route path="/publicacionessucursal" element={<ProtectedRoute rolesRequired={[rol_sucursal]}><ListadoPublicaciones/></ProtectedRoute>}/>
-      <Route path="/sucursales" element={<ProtectedRoute rolesRequired={[rol_sucursal]}><ListadoCategoria /></ProtectedRoute>} />
+      {/* <Route path="/sucursales" element={<ProtectedRoute rolesRequired={[rol_sucursal]}><ListadoCategoria /></ProtectedRoute>} /> */}
 
 
       <Route path="/logout" element={<Logout />} />
 
+      {/* <Route path="/about" element={<ProtectedRoute rolesRequired={[rol_admin]}><About /></ProtectedRoute>} /> */}
+      <Route path="/sucursales" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoSucursales /></ProtectedRoute>} />
       <Route path="/acceso_denegado" element={<AccesoDenegado />} />
     </Routes>
   );
