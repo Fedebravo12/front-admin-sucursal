@@ -15,13 +15,32 @@ import {
 const TablaPublicaciones = ({ publicaciones, detallePublicacion }) => {
 
   const myColumns = [
+
+    { 
+      field: 'urlImagen', 
+      headerName: '', 
+      width: 100, 
+      flex: 0.5, 
+      renderCell: (params) => (
+        <Box height="100%" display="flex" alignItems="center" justifyContent="center">
+          <img
+            src={params.row.idProductoNavigation.urlImagen}
+            alt={`Imagen de ${params.row.idProductoNavigation.nombre}`}
+            style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+          />
+        </Box>
+      ),
+    },
    
     { field: 'nombre', headerName: 'Nombre', width: 400, flex: 2, valueGetter: (params) => params.row.idProductoNavigation.nombre },
         // { field: 'descripcion', headerName: 'Descripción', width: 400 },
-       { field: 'precio', headerName: 'Precio', width: 400, flex: 2, valueFormatter: (params) => `$${params.value.toFixed(2)}`, valueGetter: (params) => params.row.idProductoNavigation.precio, // Formatea el valor con el signo de peso y dos decimales
+       { field: 'precio', headerName: 'Precio', width: 400, flex: 1, valueFormatter: (params) => `$${params.value.toFixed(2)}`, valueGetter: (params) => params.row.idProductoNavigation.precio, // Formatea el valor con el signo de peso y dos decimales
       },
-      { field: 'stock', headerName: 'Stock', width: 400 ,flex: 2, valueFormatter: (params) => `${params.value} unidades`,valueGetter: (params) => params.row.stock // Formatea el valor con el signo de peso y dos decimales
+      { field: 'idCategoria', headerName: 'Categoria', width: 400, flex: 1, valueGetter: (params) => params.row.idProductoNavigation.idCategoriaNavigation.nombre },
+
+      { field: 'stock', headerName: 'Stock', width: 400 ,flex: 1, valueFormatter: (params) => `${params.value} unidades`,valueGetter: (params) => params.row.stock // Formatea el valor con el signo de peso y dos decimales
     },
+
         {
             field: 'actions',
             type: 'actions',
@@ -47,9 +66,8 @@ const TablaPublicaciones = ({ publicaciones, detallePublicacion }) => {
       ];
         // Define más columnas según sea necesario
     
-    
       return (
-        <Box sx={{ height: 600, width: 1, display: 'grid' }}>
+        <Box sx={{ height: 1, width: 1, display: 'grid' }}>
     
           <DataGrid
             localeText={esES.components.MuiDataGrid.defaultProps.localeText}
@@ -61,6 +79,7 @@ const TablaPublicaciones = ({ publicaciones, detallePublicacion }) => {
             rows={publicaciones}  // Usa tus propios datos aquí
             columns={myColumns}  // Usa tus propias columnas aquí
             getRowId={(row) => row.idPublicacion}
+            rowHeight={100}
             disableColumnFilter
             disableColumnSelector
             disableDensitySelector
