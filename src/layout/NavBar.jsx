@@ -16,6 +16,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { useEffect } from 'react';
 import ResponsiveAppBar from './ResponsiveAppBar';
 import { Card, Grid } from '@mui/material';
 import ThemeContext from './ThemeContext';
@@ -147,33 +148,43 @@ const NavBar = ({ children, themeSwitch }) => {
   //   { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
   //   { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
   // ];
-  let settings = [
-    { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
-    { name: 'Gestión de Sucursales', route: '/sucursales', icon: <Store /> },
-    { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
-    { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
-  ];
+  // let settings = [
+  //   { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
+  //   { name: 'Gestión de Sucursales', route: '/sucursales', icon: <Store /> },
+  //   { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
+  //   { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
+  // ];
 
  
 debugger;
+let settings = [];
 
-  // console.log(user)
-  // if (user.rol_usuario.indexOf("Administrador") !== -1) {
-  //   let settings = [
-  //     { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
-  //     { name: 'Gestión de Sucursales', route: '/sucursales', icon: <Store /> },
-  //     { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
-  //     { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
-  //   ];
-  // }
-  // if (user.rol[0] == "sucursal") {
-  //   let settings = [
-  //     { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
-  //     { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
-  //     { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
-  //   ];
-  // }
 
+// useEffect(() => {
+//   debugger;
+
+// }, [user]);
+
+const opcionesDeMenu = () => {
+  debugger;
+  if(user.rol_usuario == import.meta.env.VITE_APP_ROLE_ADMIN){
+    settings = [
+      { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
+      { name: 'Gestión de Sucursales', route: '/sucursales', icon: <Store /> },
+      { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
+      { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
+    ];
+  }
+  if(user.rol_usuario == import.meta.env.VITE_APP_ROLE_SUCURSAL){
+    settings = [
+      { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
+      { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
+      { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
+    ];
+  }
+}
+
+opcionesDeMenu();
 
   const handleDrawerOpen = () => {
     setOpen(true);

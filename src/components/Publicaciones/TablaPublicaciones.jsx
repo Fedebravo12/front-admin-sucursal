@@ -38,6 +38,7 @@ const TablaPublicaciones = ({ publicaciones, detallePublicacion }) => {
                 onClick={() => detallePublicacion(id)} // Llamar a la función pasando el ID
                 color="inherit"
               />,
+      
     
             ];
           },

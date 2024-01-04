@@ -61,10 +61,7 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                             {...register("nombre",
                                 {
                                     required: "El nombre del producto es obligatorio",
-                                    pattern: {
-                                        value: /^[a-zA-ZáéíóúÁÉÍÓÚ\s]*$/, // Permitir letras y tildes
-                                        message: "El nombre debe contener solo letras"
-                                    }
+                            
 
                                 })
                             }

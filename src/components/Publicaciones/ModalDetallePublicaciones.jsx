@@ -17,6 +17,7 @@ import EditIcon from '@mui/icons-material/Edit';
 const ModalDetallePublicaciones = ({ open, handleClose, publicacion, onSubmit, register, errors, reset, watch, isEditMode, toggleEditMode }) => {
 
     useEffect(() => {
+        debugger;
         if (publicacion && open) {
             reset({
                 idPublicacion: publicacion.idPublicacion,
@@ -86,19 +87,7 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicacion, onSubmit, r
                             // disabled={!isEditMode}
                             disabled={true}
                             value={publicacion?.nombre}
-
-                            {...register("nombre",
-                                {
-                                    required: "El nombre del Producto es obligatorio",
-                                    // pattern: {
-                                    //     value: /^.\S.$/, // Verificar que no esté vacío
-                                    //     message: "El nombre debe contener solo letras"
-                                    // }
-
-                                })
-                            }
-                            error={Boolean(errors.nombre)}
-                            helperText={errors.nombre && errors.nombre.message}
+                            {...register("nombre",   )}
 
                         />
                     </Box>
@@ -111,22 +100,8 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicacion, onSubmit, r
                             InputLabelProps={{ shrink: true }}
                             disabled={true}
                             value={publicacion?.precio}
-
-                            // value={pid?.director} 
-
-                            {...register("precio",
-                                {
-                                    required: "El precio del producto es obligatorio",
-                                    pattern: {
-                                        value: /^[0-9.]+$/, // Expresión regular que permite solo números y puntos
-                                        message: "Ingrese un valor válido para el precio",
-                                    }
-
-                                })
-                            }
-                            error={Boolean(errors.precio)}
-                            helperText={errors.precio && errors.precio.message}
-
+                            {...register("precio",   )}
+                
                         />
 
 
@@ -140,19 +115,8 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicacion, onSubmit, r
                             InputLabelProps={{ shrink: true }}
                             disabled={true}
                             value={publicacion?.categoria}
-
-                            // value={pid?.director} 
-
-                            {...register("categoria",
-                                {
-                                    required: "El precio del producto es obligatorio",
-                                    pattern: {
-                                        value: /^[0-9.]+$/, // Expresión regular que permite solo números y puntos
-                                        message: "Ingrese un valor válido para el precio",
-                                    }
-
-                                })
-                            }
+                            {...register("categoria",   )}
+            
 
                         />
 
@@ -220,16 +184,8 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicacion, onSubmit, r
                             InputLabelProps={{ shrink: true }}
                             disabled={true}
                             value={publicacion?.urlImagen}
+                            {...register("urlImagen",   )}
 
-                            // value={pid?.director} 
-
-                            {...register("urlImagen",
-                                {
-                                    required: "la URL del producto es obligatoria",
-                                })
-                            }
-                            error={Boolean(errors.urlImagen)}
-                            helperText={errors.urlImagen && errors.urlImagen.message}
 
                         />
 

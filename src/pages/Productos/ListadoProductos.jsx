@@ -326,7 +326,7 @@ const onSubmitEdit = async (data) => {
             position: "center",
             icon: "error",
             allowOutsideClick: false,
-            title: "Hubo un error al agregar el PID",
+            title: "Hubo un error al agregar el Producto",
             showConfirmButton: true,
             confirmButtonText: 'Aceptar',
 

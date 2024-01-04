@@ -75,7 +75,7 @@ const ListadoPublicaciones = () => {
     const onSubmitEdit = async (data) => {
         debugger;
         // //Oculto el modal
-        // handleCloseModalDetalle();
+        handleCloseModalDetalle();
 
         // // if (!valida) {
         // //     Swal.fire({
@@ -88,36 +88,42 @@ const ListadoPublicaciones = () => {
         // //     });
         // //     return;
         // // } else {
-        // //     try {
-        //         showLoadingModal();
-        //         const response = await axios.put(apiLocalKey + "/producto", data);
-        //         //muestro el msj de exito
-        //         Swal.fire({
-        //             position: "center",
-        //             icon: "success",
-        //             allowOutsideClick: false,
-        //             title: "Producto editado correctamente",
-        //             showConfirmButton: true,
-        //         }).then((result) => {
-        //             if (result.isConfirmed) {
-        //                 //aca deberia recargar el componente para que se vea la nueva categoria
-        //                 //Revierte el valor de reload para que se vuelva a ejecutar el useEffect
-        //                 //Cada vez que se cambia el valor de reload, se ejecuta el useEffect
-        //                 setReload((prev) => !prev);
-        //                 hideLoadingModal();
-        //             }
-        //         });
-        //     // } catch (error) {
-        //     //     hideLoadingModal();
-        //     //     Swal.fire({
-        //     //         position: "center",
-        //     //         icon: "error",
-        //     //         allowOutsideClick: false,
-        //     //         title: "Hubo un error al agregar el PID",
-        //     //         showConfirmButton: true,
-        //     //     });
-        //     // }
-        // // }
+        //     try {
+                showLoadingModal();
+                const token = localStorage.getItem('token');
+                const options = {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Asegúrate de incluir el token aquí
+                    }
+                };
+                const response = await axios.put(apiLocalKey + "/publicacion", data, options);
+                //muestro el msj de exito
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    allowOutsideClick: false,
+                    title: "Producto editado correctamente",
+                    showConfirmButton: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        //aca deberia recargar el componente para que se vea la nueva categoria
+                        //Revierte el valor de reload para que se vuelva a ejecutar el useEffect
+                        //Cada vez que se cambia el valor de reload, se ejecuta el useEffect
+                        setReload((prev) => !prev);
+                        hideLoadingModal();
+                    }
+                });
+            // } catch (error) {
+            //     hideLoadingModal();
+            //     Swal.fire({
+            //         position: "center",
+            //         icon: "error",
+            //         allowOutsideClick: false,
+            //         title: "Hubo un error al agregar el PID",
+            //         showConfirmButton: true,
+            //     });
+            // }
+        // }
     };
 
 
@@ -239,6 +245,8 @@ const ListadoPublicaciones = () => {
                         isEditMode={isEditMode}
                         toggleEditMode={toggleEditMode}
                     />
+
+
 
                
                         <TablaPublicaciones publicaciones={publicaciones} detallePublicacion={handleDetallePublicacion}/>
