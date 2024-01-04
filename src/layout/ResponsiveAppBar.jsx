@@ -27,7 +27,7 @@ const settings = [
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
-  
+
   const { user, isAuthenticated } = useAuth0();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -83,20 +83,14 @@ function ResponsiveAppBar() {
 
         <Box sx={{ flexGrow: 0, position: 'absolute', right: 0 }}>
 
-        {isAuthenticated ?
-            (
-              <Tooltip title="Abrir opciones">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, ml: 3 }}>
-                  {/* en el src del avatar va la imagen del usuario, por ahora es una imagen de prueba, despues va a ser la imagen del usuario logueado */}
-                  <Avatar alt="Remy Sharp" src={user.picture} />
-                </IconButton>
-              </Tooltip>
-            )
-            :
-            null
 
-            
-          }
+          <Tooltip title="Abrir opciones">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, ml: 3 }}>
+              {/* en el src del avatar va la imagen del usuario, por ahora es una imagen de prueba, despues va a ser la imagen del usuario logueado */}
+              <Avatar alt="Remy Sharp" src={user.picture} />
+            </IconButton>
+          </Tooltip>
+
 
 
           <Menu

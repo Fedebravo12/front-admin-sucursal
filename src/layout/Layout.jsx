@@ -41,7 +41,7 @@ const Layout = ({ children }) => {
 
 
 
-  if(isAuthenticated && !isLoading && user.rol_usuario.includes(rol_admin,rol_sucursal)){
+  if(isAuthenticated && !isLoading && (user.rol_usuario.includes(rol_admin) || user.rol_usuario.includes(rol_sucursal))) {
     return (
       <ThemeContext.Provider value={{ isDarkTheme, toggleTheme }}>
         <ThemeProvider theme={isDarkTheme ? darkTheme : theme}>

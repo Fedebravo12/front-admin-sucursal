@@ -37,12 +37,12 @@ function App() {
 
 
 
-  if(isAuthenticated && !isLoading && user.rol_usuario.includes(rol_admin,rol_sucursal)){
+  if (isAuthenticated && !isLoading && (user.rol_usuario.includes(rol_admin) || user.rol_usuario.includes(rol_sucursal))) {
     return (
       <AppRouter />
     )
   }
- 
+
 
 }
 
