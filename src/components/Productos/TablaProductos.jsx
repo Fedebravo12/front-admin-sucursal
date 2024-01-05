@@ -14,6 +14,22 @@ import {
 const TablaProductos = ({ productos, onDelete, detalleProducto }) => {
 
   const myColumns = [
+
+    { 
+      field: 'urlImagen', 
+      headerName: '', 
+      width: 100, 
+      flex: 0.5, 
+      renderCell: (params) => (
+        <Box height="100%" display="flex" alignItems="center" justifyContent="center">
+          <img
+            src={params.row.urlImagen}
+            alt={`Imagen de ${params.row.nombre}`}
+            style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+          />
+        </Box>
+      ),
+    },
     //el field debe ser el mismo nombre de la propiedad del objeto, cada campo es una columna
     // { field: 'idCategoria', headerName: 'Id', width: 500 },
     { field: 'nombre', headerName: 'Nombre', width: 400, flex: 2 },

@@ -11,10 +11,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 import EditIcon from '@mui/icons-material/Edit';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
 
-const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSubmit, register, errors, reset, watch, onCategoriaChange, isEditMode, toggleEditMode }) => {
+const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSubmit, register, errors, reset, watch, selectedFile, handleFileChange, onCategoriaChange, isEditMode, toggleEditMode }) => {
 
     useEffect(() => {
         if (productos && open) {
@@ -24,7 +25,7 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
                 precio: productos.precio,
                 idCategoria: productos.idCategoriaNavigation.idCategoria,
                 descripcion: productos.descripcion,
-                // urlImagen: productos.urlImagen,
+                archivo: productos.archivo,
             });
         }
     }, [productos, open, reset]);
@@ -184,29 +185,43 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
 
                     </Box>
 
-                    {/* <Box mt={3} mb={3}>
-                        <TextField fullWidth
-                            mb={2}
-                            label="urlImagen"
-                            placeholder="Ingrese la URL del producto"
-                            InputLabelProps={{ shrink: true }}
-                            disabled={!isEditMode}
-                            value={productos?.urlImagen}
 
-                            // value={pid?.director} 
-
-                            {...register("urlImagen",
-                                {
-                                    required: "la URL del producto es obligatoria",
-                                })
-                            }
-                            error={Boolean(errors.urlImagen)}
-                            helperText={errors.urlImagen && errors.urlImagen.message}
-
-                        />
+                    <Box display="flex" alignItems="center" mt={3} mb={3}>
+                        <Box flex="1">
+                            <TextField
+                                fullWidth
+                                label="Imagen"
+                                placeholder="Seleccione una imagen"
+                                value={selectedFile ? selectedFile.name : ''}
+                                InputLabelProps={{ shrink: true }}
+                                disabled={!isEditMode}
+                                {...register("archivo",
+                                    {
+                                        required: "La imagen es obligatoria",
 
 
-                    </Box> */}
+                                    })
+                                }
+                                error={Boolean(errors.archivo)}
+                                helperText={errors.archivo ? errors.archivo.message : ''}
+                            />
+                        </Box>
+                        <Box ml={1}>
+                            <label htmlFor="upload-button">
+                                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />} type="button" size="small"         disabled={!isEditMode} >
+                                    Imagen
+                                    <input
+                                        type="file"
+                                        id="upload-button"
+                                        style={{ display: 'none' }}
+                                        onChange={handleFileChange}
+                                        accept="image/*"
+                                    />
+                                </Button>
+                            </label>
+                        </Box>
+
+                    </Box>
                     {
                         isEditMode && (
                             <Box sx={{ textAlign: 'center', mt: 3 }}>
