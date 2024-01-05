@@ -43,7 +43,7 @@ const ListadoProductos = () => {
             } else {
                 clearErrors('archivo');
                 setSelectedFile(file);
-                setValue('archivo', file); // Actualiza el valor en React Hook Form
+                setValue('archivo', file.name); // Actualiza el valor en React Hook Form
             }
         } else {
             setSelectedFile(null);
@@ -381,6 +381,7 @@ const ListadoProductos = () => {
             setValue("precio", res.data.result.data.precio);
             setValue("descripcion", res.data.result.data.descripcion);
             // setValue("urlImagen", res.data.result.data.urlImagen);
+            setValue("archivo", res.data.result.data.urlImagen);
 
 
             await hideLoadingModal();
@@ -391,16 +392,16 @@ const ListadoProductos = () => {
         }
     };
 
-    // const setProductosValues = (producto) => {
-    //     setValue("nombre", producto.nombre);
-    //     setValue("categoria", producto.idCategoria.idCategoria);
-    //     setValue("precio", producto.precio);
-    // };
+
 
     const handleCloseModalDetalle = async (event, reason) => {
         if (reason == 'backdropClick') {
             return;
         }
+        setSelectedFile(null);
+        setValue('archivo', null);
+        clearErrors('archivo');
+
         setIsEditMode(false);
         reset({
             idProducto: "0",
@@ -408,6 +409,7 @@ const ListadoProductos = () => {
             idCategoria: "",
             precio: "",
             descripcion: "",
+            archivo: "",
             // urlImagen: "",
         });
         setOpenModalDetalle(false);
@@ -441,23 +443,9 @@ const ListadoProductos = () => {
         await setOpenModal(false);
     };
 
-
-    // // const handleProductoChange = (event) => {
-    // //     setValue(event.target.value);
-    // // };
-
     const handleCategoriaChange = (event) => {
         setValue("idCategoria", event.target.value, { shouldValidate: true });
     }
-
-
-
-
-
-
-
-
-
 
 
 

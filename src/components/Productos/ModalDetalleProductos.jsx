@@ -192,7 +192,7 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
                                 fullWidth
                                 label="Imagen"
                                 placeholder="Seleccione una imagen"
-                                value={selectedFile ? selectedFile.name : ''}
+                                value={productos?.archivo}
                                 InputLabelProps={{ shrink: true }}
                                 disabled={!isEditMode}
                                 {...register("archivo",
@@ -206,20 +206,28 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
                                 helperText={errors.archivo ? errors.archivo.message : ''}
                             />
                         </Box>
-                        <Box ml={1}>
-                            <label htmlFor="upload-button">
-                                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />} type="button" size="small"         disabled={!isEditMode} >
-                                    Imagen
-                                    <input
-                                        type="file"
-                                        id="upload-button"
-                                        style={{ display: 'none' }}
-                                        onChange={handleFileChange}
-                                        accept="image/*"
-                                    />
-                                </Button>
-                            </label>
-                        </Box>
+                        {isEditMode && (
+                            <Box ml={1}>
+                                <label htmlFor="upload-button">
+                                    <Button
+                                        component="label"
+                                        variant="contained"
+                                        startIcon={<CloudUploadIcon />}
+                                        type="button"
+                                        size="small"
+                                    >
+                                        Imagen
+                                        <input
+                                            type="file"
+                                            id="upload-button"
+                                            style={{ display: 'none' }}
+                                            onChange={handleFileChange}
+                                            accept="image/*"
+                                        />
+                                    </Button>
+                                </label>
+                            </Box>
+                        )}
 
                     </Box>
                     {
