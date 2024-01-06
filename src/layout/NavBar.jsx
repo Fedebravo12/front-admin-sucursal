@@ -177,8 +177,8 @@ const opcionesDeMenu = () => {
   }
   if(user.rol_usuario == import.meta.env.VITE_APP_ROLE_SUCURSAL){
     settings = [
-      { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
-      { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
+      { name: 'Gestión de Productos', route: '/publicacionessucursal', icon: <LocalMall /> },
+      { name: 'Gestión de Pedidos', route: '/pedidosSucursal', icon: <BarChart /> },
       { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
     ];
   }

@@ -61,7 +61,7 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                             {...register("nombre",
                                 {
                                     required: "El nombre del producto es obligatorio",
-                            
+
 
                                 })
                             }
@@ -99,21 +99,27 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                     </Box>
 
                     <Box mt={3} mb={3}>
-
                         <FormControl fullWidth error={Boolean(errors.idCategoria)}>
-                            <InputLabel id="categoria-label">Categoría</InputLabel>
+                            <InputLabel id="categoria-label" >
+                                Categoría
+                            </InputLabel>
                             <Select
                                 labelId="categoria-label"
+                                InputLabelProps={{ shrink: true }}
                                 placeholder="Seleccione una categoría"
                                 id="categoria-select"
                                 label="Categoria"
                                 {...register("idCategoria", { required: "La categoría del producto es obligatoria" })}
                                 onChange={onCategoriaChange}
-                                defaultValue="" // Asegúrate de que el valor por defecto sea ""
+                                defaultValue=""
                             >
-                                <MenuItem value="" disabled>Seleccione una categoría</MenuItem>
+                                <MenuItem value="" disabled>
+                                    Seleccione una categoría
+                                </MenuItem>
                                 {categorias.map((categoria) => (
-                                    <MenuItem key={categoria.idCategoria} value={categoria.idCategoria}>{categoria.nombre}</MenuItem>
+                                    <MenuItem key={categoria.idCategoria} value={categoria.idCategoria}>
+                                        {categoria.nombre}
+                                    </MenuItem>
                                 ))}
                             </Select>
                             <Typography variant="caption" color="error">
@@ -173,26 +179,27 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                                 value={selectedFile ? selectedFile.name : ''}
                                 InputLabelProps={{ shrink: true }}
                                 {...register("archivo",
-                                {
-                                    required: "La imagen es obligatoria",
+                                    {
+                                        required: "La imagen es obligatoria",
 
 
-                                })
-                            }
+                                    })
+                                }
                                 error={Boolean(errors.archivo)}
                                 helperText={errors.archivo ? errors.archivo.message : ''}
                             />
                         </Box>
                         <Box ml={1}>
                             <label htmlFor="upload-button">
-                                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />} type="button" size="small">
+                                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />} type="button" size="small" sx={{ textTransform: 'none' }}
+                                >
                                     Imagen
                                     <input
                                         type="file"
                                         id="upload-button"
                                         style={{ display: 'none' }}
                                         onChange={handleFileChange}
-                                        accept="image/*"                                      
+                                        accept="image/*"
 
                                     />
                                 </Button>
