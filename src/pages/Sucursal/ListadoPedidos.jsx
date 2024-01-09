@@ -35,7 +35,7 @@ const ListadoPedidos = () => {
 
     return (
             <Box sx={{ position: 'relative', minHeight: '100vh' }}>
-             
+                <TableCollapsibleRow pedidos={pedidos} />
             </Box>
         
     );
