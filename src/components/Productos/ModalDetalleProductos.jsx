@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 import EditIcon from '@mui/icons-material/Edit';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import InputAdornment from '@mui/material/InputAdornment';
 
 
 
@@ -113,6 +114,9 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
                             InputLabelProps={{ shrink: true }}
                             disabled={!isEditMode}
                             value={productos?.precio}
+                            InputProps={{
+                                startAdornment: <InputAdornment position="start">$</InputAdornment>
+                            }}
 
                             // value={pid?.director} 
 
@@ -120,7 +124,7 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
                                 {
                                     required: "El precio del producto es obligatorio",
                                     pattern: {
-                                        value: /^[0-9.]+$/, // Expresión regular que permite solo números y puntos
+                                        value: /^[0-9.,]+$/, // Expresión regular que permite solo números y puntos
                                         message: "Ingrese un valor válido para el precio",
                                     }
 
@@ -164,7 +168,7 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
                     <Box mt={3} mb={3}>
                         <TextField fullWidth
                             mb={2}
-                            label="descripcion"
+                            label="Descripción"
                             placeholder="Ingrese la descripcion del producto"
                             InputLabelProps={{ shrink: true }}
                             disabled={!isEditMode}

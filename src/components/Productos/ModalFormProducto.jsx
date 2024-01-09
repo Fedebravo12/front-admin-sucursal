@@ -86,7 +86,7 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                                 {
                                     required: "El precio del producto es obligatorio",
                                     pattern: {
-                                        value: /^[0-9.]+$/, // Expresión regular que permite solo números y puntos
+                                        value: /^[0-9.,]+$/, // Expresión regular que permite solo números y puntos
                                         message: "Ingrese un valor válido para el precio",
                                     }
 
@@ -132,7 +132,7 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                     <Box mt={3} mb={3}>
                         <TextField fullWidth
                             mb={2}
-                            label="descripcion"
+                            label="Descripción"
                             placeholder="Ingrese la descripcion del producto"
                             InputLabelProps={{ shrink: true }}
 

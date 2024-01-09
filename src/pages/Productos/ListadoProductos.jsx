@@ -283,6 +283,7 @@ const ListadoProductos = () => {
 
         try {
             showLoadingModal();
+            debugger;
             const formData = new FormData();
 
             // Agregar datos del formulario
@@ -292,13 +293,11 @@ const ListadoProductos = () => {
             formData.append('idCategoria', data.idCategoria);
             formData.append('descripcion', data.descripcion);
 
+
             // Agregar el archivo si está seleccionado
             if (selectedFile) {
                 formData.append('archivo', selectedFile);
-            } else {
-                setError('archivo', { type: 'manual', message: 'Se requiere una imagen' });
-                return;
-            }
+            } 
 
             const token = localStorage.getItem('token');
             const options = {

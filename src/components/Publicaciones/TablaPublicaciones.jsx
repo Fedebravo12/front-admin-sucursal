@@ -46,8 +46,6 @@ const TablaPublicaciones = ({ publicaciones, detallePublicacion }) => {
       flex: 1,
       valueFormatter: (params) => `${params.value} unidades`,
       valueGetter: (params) => params.row.stock,
-
-
     },
 
     {
