@@ -15,11 +15,23 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import format from 'date-fns/format';
 import TablePagination from '@mui/material/TablePagination';
+import { TableFooter } from '@mui/material';
 
 
 // Estilos personalizados
 const headerCellStyle = {
   fontWeight: 'bold',
+};
+
+const tableContainerStyle = {
+  border: '1px solid rgba(224, 224, 224, 1)', // Borde fino y gris
+  boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)', // Sombra sutil
+  borderRadius: '4px', // Bordes redondeados
+};
+
+// Estilos para las celdas de la tabla
+const cellStyle = {
+  borderBottom: '1px solid rgba(224, 224, 224, 1)', // Borde fino en la parte inferior de cada celda
 };
 
 
@@ -63,7 +75,8 @@ function Row(pedidos) {
         </TableCell>
       </TableRow>
       <TableRow sx={{ backgroundColor: 'white' }}>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        {/* <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}> */}
+        <TableCell colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
@@ -88,6 +101,7 @@ function Row(pedidos) {
                       <TableCell style={numericCellStyle}>{formatPrice(detalle.precio)}</TableCell>
                       <TableCell style={numericCellStyle}>{formatPrice(detalle.subTotal)}</TableCell>
                     </TableRow>
+                   
                   ))}
                 </TableBody>
               </Table>
@@ -101,7 +115,7 @@ function Row(pedidos) {
 
 export default function CollapsibleTable(pedidos) {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   // Cambiar página
   const handleChangePage = (event, newPage) => {
@@ -114,7 +128,7 @@ export default function CollapsibleTable(pedidos) {
     setPage(0);
   };
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} style={tableContainerStyle}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
@@ -133,9 +147,19 @@ export default function CollapsibleTable(pedidos) {
               <Row key={pedido.id} pedido={pedido} />
             ))}
         </TableBody>
+        {/* <TableFooter>
+          <TableRow backgroundColor={'white'}>
+            <TableCell colSpan={6} >
+              <Typography variant="body2" color="text.secondary" align='right' nav>
+                Total: {formatPrice(pedidos.pedidos.reduce((total, pedido) => total + pedido.total, 0))}
+              </Typography>
+            </TableCell>
+          </TableRow>
+        </TableFooter> */}
       </Table>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
+        sx={{backgroundColor: '#white'}}
+        rowsPerPageOptions={[10, 20, 25,50]}
         component="div"
         count={pedidos.pedidos.length}
         rowsPerPage={rowsPerPage}

@@ -34,11 +34,18 @@ const ListadoPedidos = () => {
 
 
     return (
-        <Box sx={{ ml: 1, height:1 }}>
-            <TableCollapsibleRow pedidos={pedidos} />
-        </Box>
+        // <Box sx={{ mr: 2, ml: 2, height: 1, mt: 5, mb: 5 }}>
 
-    );
+            <Box style={{ position: 'relative' }} sx={{ mr: 2, ml: 2, height: 1, mb: 2 }}>
+
+                <Typography variant="h5"  gutterBottom style={{ marginTop: '30px', marginBottom: '50px' }}>
+                    Listado de Pedidos
+                </Typography>
+
+                <TableCollapsibleRow pedidos={pedidos} />
+            </Box>
+
+            );
 }
 
-export default ListadoPedidos;
+            export default ListadoPedidos;
