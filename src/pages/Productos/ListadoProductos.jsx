@@ -79,7 +79,9 @@ const ListadoProductos = () => {
                 ]);
 
                 await setProductos(productos.data.result.data);
-                await setCategorias(categorias.data.result.data);
+
+                debugger;
+                await setCategorias(categorias.data.result.data.filter(categoria => categoria.agrupador == false));
 
             } catch (error) {
                 debugger;
