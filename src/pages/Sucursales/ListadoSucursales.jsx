@@ -9,6 +9,10 @@ import LoadingModal from '../../components/LoadingModal.jsx';
 import FormModal from '../../components/FormModal.jsx';
 import DetailModal from '../../components/DetailModal.jsx';
 import GenericTable from '../../components/GenericTable.jsx';
+import {GridActionsCellItem
+} from '@mui/x-data-grid';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 
 
 
@@ -35,17 +39,16 @@ const ListadoSucursales = () => {
   const [formData, setFormData] = useState({
     nombre: '',
     direccion: '',
-    email: '',
-    descripcion: '',
+    emailSucursal: '',
   });
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  // const handleInputChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
 
   useEffect(() => {
     const loadData = async () => {
@@ -59,8 +62,8 @@ const ListadoSucursales = () => {
         // console.log('Sucursales Data:', sucursales);
         // const sucursalesArray = sucursalesResponse.data.result;
 
-        setSucursales(sucursales.data.result.data);
-        console.log(sucursales);
+        setSucursales(sucursales.data.result);
+        console.log(sucursales.data.result);
 
       } catch (error) {
         console.log(error);
@@ -73,10 +76,11 @@ const ListadoSucursales = () => {
   }, [reload]);
 
 
-  // console.log('Sucursales Data:', sucursales);
+  console.log('Sucursales Data:', sucursales);
 
 
   const handleDeleteSucursal = async (id) => {
+    debugger;
     try {
       Swal.fire({
         title: '¿Estás seguro de eliminar la sucursal?',
@@ -123,6 +127,7 @@ const ListadoSucursales = () => {
   };
 
   const onSubmit = async (data) => {
+    debugger;
     handleCloseModal();
 
     showLoadingModal();
@@ -147,6 +152,7 @@ const ListadoSucursales = () => {
   };
 
   const onSubmitEdit = async (data) => {
+
     handleCloseModalDetalle();
 
     showLoadingModal();
@@ -166,18 +172,22 @@ const ListadoSucursales = () => {
     });
   };
 
-  const handleDetalleProducto = async (id) => {
+  const handleDetalleSucursal = async (id) => {
+    debugger;
     try {
+      const token = localStorage.getItem('token');
+      const headers = {
+          Authorization: `Bearer ${token}`,
+      };
       showLoadingModal();
-      const res = await axios.get(apiLocalKey + '/sucursal/' + id);
+      const res = await axios.get(apiLocalKey + '/sucursal/' + id,  { headers: headers });
       const sucursal = res.data.result.data;
       setSucursal(res.data.result.data);
 
       setValue('idSucursal', res.data.result.data.idSucursal);
       setValue('nombre', res.data.result.data.nombre);
       setValue('direccion', res.data.result.data.direccion);
-      setValue('email', res.data.result.data.precio);
-      setValue('descripcion', res.data.result.data.emailSucursal);
+      setValue('emailSucursal', res.data.result.data.emailSucursal);
 
       await hideLoadingModal();
       await setOpenModalDetalle(true);
@@ -201,8 +211,7 @@ const ListadoSucursales = () => {
       idSucursal: '0',
       nombre: '',
       direccion: '',
-      email: '',
-      descripcion: '',
+      emailSucursal: '',
     });
     await setOpenModalDetalle(false);
   };
@@ -217,21 +226,19 @@ const ListadoSucursales = () => {
       idSucursal: '0',
       nombre: '',
       direccion: '',
-      email: '',
-      descripcion: '',
+      emailSucursal: '',
     });
     await setOpenModal(false);
   };
 
-  const handleSucursalChange = (event) => {
-    setValue('idSucursal', event.target.value, { shouldValidate: true });
-  };
+  // const handleSucursalChange = (event) => {
+  //   setValue('idSucursal', event.target.value, { shouldValidate: true });
+  // };
 
   const columns = [
     { field: 'nombre', headerName: 'Nombre', width: 400, flex: 2, valueGetter: (params) => params.row.nombre },
-    { field: 'direccion', headerName: 'Dirección', width: 400, flex: 2, valueGetter: (params) => params.row.direccion },
-    { field: 'email', headerName: 'Email', width: 400, flex: 2, valueGetter: (params) => params.row.email },
-    { field: 'descripcion', headerName: 'Descripción', width: 400, flex: 2, valueGetter: (params) => params.row.descripcion },
+    { field: 'direccion', headerName: 'Dirección', width: 400, flex: 2},
+    { field: 'emailSucursal', headerName: 'Email', width: 400, flex: 2},
     {
       field: 'actions',
       type: 'actions',
@@ -244,7 +251,7 @@ const ListadoSucursales = () => {
           icon={<EditIcon />}
           label="Edit"
           className="textPrimary"
-          onClick={() => handleDetalleProducto(id)}
+          onClick={() => handleDetalleSucursal(id)}
           color="inherit"
         />,
         <GridActionsCellItem
@@ -269,19 +276,14 @@ const ListadoSucursales = () => {
         <FormModal
           open={openModal}
           handleClose={handleCloseModal}
-          onSubmit={onSubmit}
-          formData={formData}
+          onSubmit={handleSubmit(onSubmit)}
           errors={errors}
           register={register}
-          onInputChange={handleInputChange}
           reset={reset}
-          toggleEditMode={toggleEditMode}
-          isEditMode={isEditMode}
           fields={[
             { name: 'nombre', label: 'Nombre Sucursal', validation: { required: 'El nombre es obligatorio' } },
             { name: 'direccion', label: 'Dirección', validation: { required: 'La dirección es obligatoria' } },
-            { name: 'email', label: 'Email', validation: { required: 'El email es obligatorio', pattern: { value: /^\S+@\S+$/, message: 'Ingrese un email válido' } } },
-            { name: 'descripcion', label: 'Descripción', validation: { required: 'La descripción es obligatoria' } },
+            { name: 'emailSucursal', label: 'Email', validation: { required: 'El email es obligatorio', pattern: { value: /^\S+@\S+$/, message: 'Ingrese un email válido' } } },
           ]}
         />
 
@@ -289,19 +291,18 @@ const ListadoSucursales = () => {
           open={openModalDetalle}
           handleClose={handleCloseModalDetalle}
           item={sucursal}
-          onSubmit={onSubmitEdit}
+          onSubmit={handleSubmit(onSubmitEdit)}
           register={register}
           errors={errors}
           reset={reset}
           watch={watch}
-          onInputChange={handleInputChange}
+          // onInputChange={handleInputChange}
           isEditMode={isEditMode}
           toggleEditMode={toggleEditMode}
           fields={[
             { name: 'nombre', label: 'Nombre', validation: { required: 'El nombre es obligatorio' } },
             { name: 'direccion', label: 'Dirección', validation: { required: 'La dirección es obligatoria' } },
-            { name: 'email', label: 'Email', validation: { required: 'El email es obligatorio' } },
-            { name: 'descripcion', label: 'Descripción', validation: { required: 'La descripción es obligatoria' } },
+            { name: 'emailSucursal', label: 'Email', validation: { required: 'El email es obligatorio' } },
           ]}
         />
 
@@ -318,7 +319,7 @@ const ListadoSucursales = () => {
             columns={columns}
             getRowId={(row) => row.idSucursal}
             onDelete={handleDeleteSucursal}
-            onDetail={handleDetalleProducto}
+            onDetail={handleDetalleSucursal}
           />
         </Grid>
       </Box>

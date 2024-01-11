@@ -156,7 +156,6 @@ const NavBar = ({ children, themeSwitch }) => {
   // ];
 
  
-debugger;
 let settings = [];
 
 
@@ -166,7 +165,6 @@ let settings = [];
 // }, [user]);
 
 const opcionesDeMenu = () => {
-  debugger;
   if(user.rol_usuario == import.meta.env.VITE_APP_ROLE_ADMIN){
     settings = [
       { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },

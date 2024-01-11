@@ -6,13 +6,8 @@ import FormControl from '@mui/material/FormControl';
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-const FormModal = ({ open, handleClose, formData, onSubmit, register, errors, reset, onInputChange, isEditMode, toggleEditMode, fields }) => {
-  useEffect(() => {
-    if (formData && open) {
-      // Reset the form fields when the formData or modal open state changes
-      reset(formData);
-    }
-  }, [formData, open, reset]);
+const FormModal = ({ open, handleClose, onSubmit, register, errors, reset, fields }) => {
+
 
   return (
     <Modal
@@ -49,7 +44,7 @@ const FormModal = ({ open, handleClose, formData, onSubmit, register, errors, re
           <CloseIcon />
         </IconButton>
         <Typography id="modal-title" variant="h5" component="h2">
-          {isEditMode ? 'Editar' : 'Nuevo'} {formData && formData.nombre}
+          { 'Nuevo'}
         </Typography>
         <Box mt={3} mb={3}>
           {fields.map((field) => (
@@ -59,16 +54,14 @@ const FormModal = ({ open, handleClose, formData, onSubmit, register, errors, re
                 label={field.label}
                 placeholder={`Ingrese ${field.label}`}
                 InputLabelProps={{ shrink: true }}
-                disabled={!isEditMode}
-                value={formData && formData[field.name]}
-                onChange={(e) => onInputChange(field.name, e.target.value)}
+                // value={formData && formData[field.name]}
                 {...register(field.name, field.validation)}
                 error={Boolean(errors[field.name])}
                 helperText={errors[field.name] && errors[field.name].message}
               />
             </Box>
           ))}
-          {isEditMode && (
+          {(
             <Box sx={{ textAlign: 'center', mt: 3 }}>
               <Button
                 sx={{ mt: 1, mr: 2, width: '120px', textTransform: 'none' }}
