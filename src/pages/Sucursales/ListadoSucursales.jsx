@@ -98,7 +98,20 @@ const ListadoSucursales = () => {
         if (result.isConfirmed) {
           showLoadingModal();
 
-          const response = await axios.put(apiLocalKey + '/sucursal/' + id);
+          const token = localStorage.getItem('token');
+    
+    debugger;
+
+    const response = await axios.put(
+      apiLocalKey + '/sucursales/' + id,
+      null,  // No request body, as it is a DELETE request
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    
 
           Swal.fire({
             position: 'center',
@@ -127,11 +140,15 @@ const ListadoSucursales = () => {
   };
 
   const onSubmit = async (data) => {
-    debugger;
     handleCloseModal();
 
     showLoadingModal();
-    const response = await axios.post(apiLocalKey + '/sucursal', data);
+    
+    const token = localStorage.getItem('token');
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.post(apiLocalKey + '/sucursal', data, { headers: headers });
 
     Swal.fire({
       position: 'center',
@@ -156,7 +173,11 @@ const ListadoSucursales = () => {
     handleCloseModalDetalle();
 
     showLoadingModal();
-    const response = await axios.put(apiLocalKey + '/sucursal', data);
+    const token = localStorage.getItem('token');
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.put(apiLocalKey + '/sucursal', data, { headers: headers });
 
     Swal.fire({
       position: 'center',
@@ -181,7 +202,6 @@ const ListadoSucursales = () => {
       };
       showLoadingModal();
       const res = await axios.get(apiLocalKey + '/sucursal/' + id,  { headers: headers });
-      const sucursal = res.data.result.data;
       setSucursal(res.data.result.data);
 
       setValue('idSucursal', res.data.result.data.idSucursal);
@@ -189,8 +209,8 @@ const ListadoSucursales = () => {
       setValue('direccion', res.data.result.data.direccion);
       setValue('emailSucursal', res.data.result.data.emailSucursal);
 
-      await hideLoadingModal();
-      await setOpenModalDetalle(true);
+       hideLoadingModal();
+       setOpenModalDetalle(true);
     } catch (error) {
       console.log(error);
       hideLoadingModal();
@@ -296,7 +316,6 @@ const ListadoSucursales = () => {
           errors={errors}
           reset={reset}
           watch={watch}
-          // onInputChange={handleInputChange}
           isEditMode={isEditMode}
           toggleEditMode={toggleEditMode}
           fields={[
