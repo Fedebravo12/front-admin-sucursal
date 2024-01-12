@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import LoadingModal from "../../components/LoadingModal";
 import { Box, TextField, Typography } from "@mui/material";
-import TableCollapsibleRow from "../../components/Sucursal/TablaPedido";
+import TablaPedidos from "../../components/Sucursal/TablaPedido";
 import CardPedido from "../../components/Sucursal/CardPedido";
+
 const ListadoPedidos = () => {
     const apiLocalKey = import.meta.env.VITE_APP_API_KEY;
     const [pedidos, setPedidos] = useState([]);
@@ -65,7 +66,7 @@ const ListadoPedidos = () => {
                 Listado de Pedidos
             </Typography>
 
-            <TableCollapsibleRow pedidos={pedidos} onHandleTransition={handleTransition} />
+            <TablaPedidos pedidos={pedidos} onHandleTransition={handleTransition} />
         </Box>
 
     );

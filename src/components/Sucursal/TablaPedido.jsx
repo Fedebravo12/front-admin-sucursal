@@ -75,7 +75,7 @@ const formatDate = (date) => {
 
 
 
-function Row(pedidos , onHandleTransition) {
+function Row({ pedido, onHandleTransition }) {
   console.log(import.meta.env.VITE_APP_ESTADO_PEDIDO_INGRESADO)
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
@@ -95,7 +95,6 @@ function Row(pedidos , onHandleTransition) {
     setAnchorEl(null);
     setSelectedId(null);
   };
-  const { pedido } = pedidos;
   const [open, setOpen] = useState(false);
 
   return (
@@ -135,12 +134,12 @@ function Row(pedidos , onHandleTransition) {
           >
             {pedido.idEstadoEnvio == import.meta.env.VITE_APP_ESTADO_PEDIDO_INGRESADO && (
               <MenuItem onClick={() => handleMenuClick(parseInt(import.meta.env.VITE_APP_ESTADO_PEDIDO_ENVIADO), pedido.id)}>
-                Marcar como Enviado
+                Cambiar estado a Enviado
               </MenuItem>
             )}
             {pedido.idEstadoEnvio == import.meta.env.VITE_APP_ESTADO_PEDIDO_ENVIADO && (
               <MenuItem onClick={() => handleMenuClick(parseInt(import.meta.env.VITE_APP_ESTADO_PEDIDO_ENTREGADO), pedido.id)}>
-                Marcar como Entregado
+                Cambiar estado a Entregado
               </MenuItem>
             )}          </Menu>
         </TableCell>
@@ -192,9 +191,11 @@ function Row(pedidos , onHandleTransition) {
   );
 }
 
-const CollapsibleTable = ({pedidos, onHandleTransition}) => {
+const TablaPedidos = ({ pedidos, onHandleTransition }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const totalPedidos = Array.isArray(pedidos) ? pedidos.length : 0;
+
 
   // Cambiar página
   const handleChangePage = (event, newPage) => {
@@ -221,11 +222,9 @@ const CollapsibleTable = ({pedidos, onHandleTransition}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {pedidos.pedidos
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((pedido) => (
-              <Row key={pedido.id} pedido={pedido} onHandleTransition={onHandleTransition}/> // Pasando handleTransition como prop />
-            ))}
+        {pedidos && pedidos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((pedido) => (
+            <Row key={pedido.id} pedido={pedido} onHandleTransition={onHandleTransition} />
+        ))}
         </TableBody>
         {/* <TableFooter>
           <TableRow backgroundColor={'white'}>
@@ -241,7 +240,7 @@ const CollapsibleTable = ({pedidos, onHandleTransition}) => {
         sx={{ backgroundColor: '#white' }}
         rowsPerPageOptions={[10, 20, 25, 50]}
         component="div"
-        count={pedidos.pedidos.length}
+        count={totalPedidos}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -252,4 +251,4 @@ const CollapsibleTable = ({pedidos, onHandleTransition}) => {
     </TableContainer>
   );
 }
-export default CollapsibleTable;
+export default TablaPedidos;
