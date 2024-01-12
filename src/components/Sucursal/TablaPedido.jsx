@@ -15,8 +15,11 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import format from 'date-fns/format';
 import TablePagination from '@mui/material/TablePagination';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { TableFooter } from '@mui/material';
-
+import { useState } from 'react';
 
 // Estilos personalizados
 const headerCellStyle = {
@@ -47,9 +50,53 @@ const formatDate = (date) => {
   return date ? format(new Date(date), "dd/MM/yyyy") : "";
 };
 
-function Row(pedidos) {
+
+// const handleTransition = async (idEstadoEnvio, idPedido) => {
+//   debugger;
+//   try {
+//     const apiLocalKey = import.meta.env.VITE_APP_API_KEY;
+
+//       const token = localStorage.getItem('token');
+//       const headers = {
+//           Authorization: `Bearer ${token}`
+//       };
+//       const body = {
+//           idEstadoEnvio,
+//           idPedido
+//       }
+//       const response = await axios.put(apiLocalKey + "/CambiarEstadoEnvio", body, { headers });
+//       setReload(!reload);
+//       console.log(response.data.result);
+
+//   } catch (error) {
+//       console.error(error);
+//   }
+// }
+
+
+
+function Row(pedidos , onHandleTransition) {
+  console.log(import.meta.env.VITE_APP_ESTADO_PEDIDO_INGRESADO)
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
+  const openOptions = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    // setSelectedId(idPedido);
+  };
+  const handleMenuClick = (idEstadoEnvio, idPedido) => {
+    debugger;
+    onHandleTransition(idEstadoEnvio, idPedido);
+    handleClose();
+};
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setSelectedId(null);
+  };
   const { pedido } = pedidos;
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <React.Fragment>
@@ -68,15 +115,47 @@ function Row(pedidos) {
         </TableCell>
         <TableCell>{formatDate(pedido.fecha)}</TableCell>
         <TableCell>{pedido.emailUsuario}</TableCell>
-        <TableCell>{pedido.estadoEnvio}</TableCell>
+        <TableCell>
+          <div>
+            {pedido.estadoEnvio}
+            {pedido.idEstadoEnvio != null && pedido.idEstadoEnvio != import.meta.env.VITE_APP_ESTADO_PEDIDO_ENTREGADO && (
+              <IconButton
+                sx={{ ml: 0.5 }}
+                aria-label="more"
+                onClick={(event) => handleClick(event)}
+              >
+                <MoreVertIcon />
+              </IconButton>
+            )}
+          </div>
+          <Menu
+            anchorEl={anchorEl}
+            open={openOptions}
+            onClose={handleClose}
+          >
+            {pedido.idEstadoEnvio == import.meta.env.VITE_APP_ESTADO_PEDIDO_INGRESADO && (
+              <MenuItem onClick={() => handleMenuClick(parseInt(import.meta.env.VITE_APP_ESTADO_PEDIDO_ENVIADO), pedido.id)}>
+                Marcar como Enviado
+              </MenuItem>
+            )}
+            {pedido.idEstadoEnvio == import.meta.env.VITE_APP_ESTADO_PEDIDO_ENVIADO && (
+              <MenuItem onClick={() => handleMenuClick(parseInt(import.meta.env.VITE_APP_ESTADO_PEDIDO_ENTREGADO), pedido.id)}>
+                Marcar como Entregado
+              </MenuItem>
+            )}          </Menu>
+        </TableCell>
+
         <TableCell style={numericCellStyle} sx={{ fontWeight: 'bold' }}>
           {formatPrice(pedido.total)}
 
         </TableCell>
+
+
+
       </TableRow>
       <TableRow sx={{ backgroundColor: 'white' }}>
-        {/* <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}> */}
-        <TableCell colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          {/* <TableCell colSpan={6}> */}
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
@@ -101,7 +180,7 @@ function Row(pedidos) {
                       <TableCell style={numericCellStyle}>{formatPrice(detalle.precio)}</TableCell>
                       <TableCell style={numericCellStyle}>{formatPrice(detalle.subTotal)}</TableCell>
                     </TableRow>
-                   
+
                   ))}
                 </TableBody>
               </Table>
@@ -113,7 +192,7 @@ function Row(pedidos) {
   );
 }
 
-export default function CollapsibleTable(pedidos) {
+const CollapsibleTable = ({pedidos, onHandleTransition}) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -138,13 +217,14 @@ export default function CollapsibleTable(pedidos) {
             <TableCell style={headerCellStyle}>Email Usuario</TableCell>
             <TableCell style={headerCellStyle}>Estado Envio</TableCell>
             <TableCell style={headerCellStyle}>Total</TableCell>
+
           </TableRow>
         </TableHead>
         <TableBody>
           {pedidos.pedidos
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((pedido) => (
-              <Row key={pedido.id} pedido={pedido} />
+              <Row key={pedido.id} pedido={pedido} onHandleTransition={onHandleTransition}/> // Pasando handleTransition como prop />
             ))}
         </TableBody>
         {/* <TableFooter>
@@ -158,8 +238,8 @@ export default function CollapsibleTable(pedidos) {
         </TableFooter> */}
       </Table>
       <TablePagination
-        sx={{backgroundColor: '#white'}}
-        rowsPerPageOptions={[10, 20, 25,50]}
+        sx={{ backgroundColor: '#white' }}
+        rowsPerPageOptions={[10, 20, 25, 50]}
         component="div"
         count={pedidos.pedidos.length}
         rowsPerPage={rowsPerPage}
@@ -172,3 +252,4 @@ export default function CollapsibleTable(pedidos) {
     </TableContainer>
   );
 }
+export default CollapsibleTable;
