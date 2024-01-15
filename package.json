@@ -21,7 +21,7 @@
     "@mui/styled-engine-sc": "^5.14.12",
     "@mui/x-data-grid": "^6.16.0",
     "@mui/x-data-grid-generator": "^6.16.0",
-    "@mui/x-date-pickers": "^6.18.2",
+    "@mui/x-date-pickers": "^6.19.0",
     "@mui/x-date-pickers-pro": "^6.18.2",
     "animate.css": "^4.1.1",
     "axios": "^1.5.1",

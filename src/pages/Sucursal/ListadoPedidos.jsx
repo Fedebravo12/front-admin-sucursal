@@ -4,6 +4,7 @@ import LoadingModal from "../../components/LoadingModal";
 import { Box, TextField, Typography } from "@mui/material";
 import TablaPedidos from "../../components/Sucursal/TablaPedido";
 import CardPedido from "../../components/Sucursal/CardPedido";
+import FilterBar from "../../components/FilterBar";
 
 const ListadoPedidos = () => {
     const apiLocalKey = import.meta.env.VITE_APP_API_KEY;
@@ -65,7 +66,10 @@ const ListadoPedidos = () => {
             <Typography variant="h5" gutterBottom style={{ marginTop: '30px', marginBottom: '50px' }}>
                 Listado de Pedidos
             </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'flex', ml: 3 }}>
 
+                <FilterBar />
+            </Box>
             <TablaPedidos pedidos={pedidos} onHandleTransition={handleTransition} />
         </Box>
 
