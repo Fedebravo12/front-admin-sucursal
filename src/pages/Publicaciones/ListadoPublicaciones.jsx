@@ -151,7 +151,7 @@ const ListadoPublicaciones = () => {
             setValue("idCategoria", res.data.result.data.idProductoNavigation.idCategoriaNavigation.idCategoria);
             setValue("precio", res.data.result.data.precio);
             setValue("descripcion", res.data.result.data.descripcion);
-            setValue("urlImagen", res.data.result.data.urlImagen);
+            // setValue("urlImagen", res.data.result.data.urlImagen);
 
 
             await hideLoadingModal();
@@ -176,7 +176,7 @@ const ListadoPublicaciones = () => {
             idCategoria: "",
             precio: "",
             descripcion: "",
-            urlImagen: "",
+            // urlImagen: "",
         });
         setOpenModalDetalle(false);
     };

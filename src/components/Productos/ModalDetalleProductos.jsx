@@ -198,7 +198,7 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
                                 placeholder="Seleccione una imagen"
                                 value={productos?.archivo}
                                 InputLabelProps={{ shrink: true }}
-                                disabled={!isEditMode}
+                                disabled
                                 {...register("archivo",
                                     {
                                         required: "La imagen es obligatoria",

@@ -63,6 +63,7 @@ const ListadoPedidos = () => {
     }
 
     const handleFilterChange = (date) => {
+        debugger;
         console.log(date);
         setFilteredDate(date);
     };

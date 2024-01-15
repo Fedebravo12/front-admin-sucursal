@@ -178,6 +178,7 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                                 placeholder="Seleccione una imagen"
                                 value={selectedFile ? selectedFile.name : ''}
                                 InputLabelProps={{ shrink: true }}
+                                disabled
                                 {...register("archivo",
                                     {
                                         required: "La imagen es obligatoria",
