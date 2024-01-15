@@ -1,6 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { GridToolbarQuickFilter } from '@mui/x-data-grid';
+
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { esES } from '@mui/x-data-grid';
@@ -11,6 +13,22 @@ import {
 
   GridActionsCellItem
 } from '@mui/x-data-grid';
+
+
+function QuickSearchToolbar() {
+  return (
+    <Box
+      sx={{
+        p: 0.5,
+        pb: 0,
+        display: 'flex',
+        justifyContent: 'flex-end', 
+      }}
+    >
+      <GridToolbarQuickFilter />
+    </Box>
+  );
+}
 
 const TablaPublicaciones = ({ publicaciones, detallePublicacion }) => {
 
@@ -78,7 +96,7 @@ const TablaPublicaciones = ({ publicaciones, detallePublicacion }) => {
 
       <DataGrid
         localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-
+        slots={{ toolbar: QuickSearchToolbar, }}
         initialState={{
           pagination: { paginationModel: { pageSize: 10 } },
         }}
@@ -98,22 +116,8 @@ const TablaPublicaciones = ({ publicaciones, detallePublicacion }) => {
               ? 'low-stock-row'
               : ''
         }
-        sortModel={[
-          {
-            field: 'stock',
-            sort: 'desc',
-          },
-        ]}
 
 
-        componentsProps={{
-          toolbar: {
-            showQuickFilter: true,
-
-          },
-        }
-
-        }
 
       />
     </Box>
