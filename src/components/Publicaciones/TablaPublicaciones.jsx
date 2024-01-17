@@ -106,7 +106,16 @@ const TablaPublicaciones = ({ publicaciones, detallePublicacion }) => {
         getRowId={(row) => row.idPublicacion}
         rowHeight={100}
         disableColumnFilter
-        disableColumnSelector
+        sx={{
+
+
+          '.MuiDataGrid-row': {
+            mb: '2px', /* Añadir espacio entre filas */
+          
+          }
+         
+        }}       
+         disableColumnSelector
         disableDensitySelector
         components={{ Toolbar: GridToolbar }}
         getRowClassName={(params) =>
