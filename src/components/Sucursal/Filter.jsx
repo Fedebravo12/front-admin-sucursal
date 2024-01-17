@@ -7,18 +7,15 @@ import Box from '@mui/material/Box';
 import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import es from 'dayjs/locale/es';
 import FormControl from '@mui/material/FormControl';
 
 
 
-const Filter = ({ fechaSeleccionada, changeFecha, minDate, maxDate, limpiar, buscar, estadosEnvio, changeEstadoEnvioFilter, estadoEnvio }) => {
+const Filter = ({ fechaSeleccionada, changeFecha, minDate, maxDate, limpiar, buscar, estadosEnvio, changeEstadoEnvioFilter, estadoEnvio, expanded, changeExpanded }) => {
     return (
-        <Grid container spacing={2} sx={{ mt: 3, mb: 5 }}>
+        <Grid container spacing={2} sx={{ mt: 3, mb: 10 }}>
             <Grid item xs={12}>
-                <Accordion sx={{ backgroundColor: '#F4F4F4', boxShadow: 3 }}>
+                <Accordion sx={{ backgroundColor: '#F4F4F4', boxShadow: 3}} expanded={expanded} onChange={changeExpanded}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel2a-content"
@@ -31,7 +28,6 @@ const Filter = ({ fechaSeleccionada, changeFecha, minDate, maxDate, limpiar, bus
                     <AccordionDetails>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={4} xl={4}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={es}>
                                     <DatePicker
                                         sx={{ width: '100%' }}
                                         format='MM/YYYY'
@@ -43,7 +39,6 @@ const Filter = ({ fechaSeleccionada, changeFecha, minDate, maxDate, limpiar, bus
                                         value={fechaSeleccionada}
                                         onChange={changeFecha}
                                     />
-                                </LocalizationProvider>
                             </Grid>
 
                             <Grid item xs={12} sm={4}>

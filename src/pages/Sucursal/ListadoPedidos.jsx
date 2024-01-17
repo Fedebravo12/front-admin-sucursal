@@ -14,6 +14,7 @@ const ListadoPedidos = () => {
     const { showLoadingModal, hideLoadingModal } = LoadingModal();
     const [fechaSeleccionada, setFechaSeleccionada] = useState(dayjs());
     const [estadoEnvio, setEstadoEnvio] = useState(0);
+    const [expanded, setExpanded] = useState(true);
 
     //defino las fechas minimas y maximas para mostrar en el calendario
     const minDate = dayjs(new Date(2022, 0, 1));
@@ -41,6 +42,11 @@ const ListadoPedidos = () => {
         debugger;
         setEstadoEnvio(event.target.value);
     }
+
+    const onChangeExpanded = () => {
+        setExpanded(!expanded);
+    }
+
 
     const handleTransition = async (idEstadoEnvio, idPedido) => {
         debugger;
@@ -189,7 +195,7 @@ const ListadoPedidos = () => {
                 Listado de Pedidos
             </Typography>
 
-            <Filter fechaSeleccionada={fechaSeleccionada} changeFecha={onChangeFechaSeleccionada} minDate={minDate} maxDate={maxDate} buscar={buscarPedidos} limpiar={limpiarFiltros} estadosEnvio={estadosEnvio} changeEstadoEnvioFilter={onChangeEstadoEnvio} estadoEnvio={estadoEnvio} />
+            <Filter fechaSeleccionada={fechaSeleccionada} changeFecha={onChangeFechaSeleccionada} minDate={minDate} maxDate={maxDate} buscar={buscarPedidos} limpiar={limpiarFiltros} estadosEnvio={estadosEnvio} changeEstadoEnvioFilter={onChangeEstadoEnvio} estadoEnvio={estadoEnvio} expanded={expanded} changeExpanded={onChangeExpanded} />
 
 
             {pedidos.length === 0 ? (
