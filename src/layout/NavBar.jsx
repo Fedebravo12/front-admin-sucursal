@@ -18,6 +18,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useEffect } from 'react';
 import ResponsiveAppBar from './ResponsiveAppBar';
+import Tooltip from '@mui/material/Tooltip';
 import { Card, Grid } from '@mui/material';
 import ThemeContext from './ThemeContext';
 import { useNavigate } from 'react-router-dom';
@@ -155,33 +156,82 @@ const NavBar = ({ children, themeSwitch }) => {
   //   { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
   // ];
 
- 
-let settings = [];
+
+  let settings = [];
 
 
-// useEffect(() => {
-//   debugger;
+  // useEffect(() => {
+  //   debugger;
 
-// }, [user]);
+  // }, [user]);
 
-const opcionesDeMenu = () => {
-  if(user.rol_usuario == import.meta.env.VITE_APP_ROLE_ADMIN){
-    settings = [
-      { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
-      { name: 'Gestión de Sucursales', route: '/sucursales', icon: <Store /> },
-      { name: 'Gestion de Pedidos', route: '/publicacionessucursal', icon: <BarChart /> },
-      // { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
-    ];
+  const opcionesDeMenu = () => {
+    if (user.rol_usuario == import.meta.env.VITE_APP_ROLE_ADMIN) {
+      settings = [
+        {
+          name: 'Gestión de Productos',
+          route: '/productosadmin',
+          icon: (
+            <Tooltip title="Gestión de Productos" arrow>
+              <IconButton>
+                <LocalMall />
+              </IconButton>
+            </Tooltip>
+          ),
+        },
+        {
+          name: 'Gestión de Sucursales',
+          route: '/sucursales',
+          icon: (
+            <Tooltip title="Gestión de Sucursales" arrow>
+              <IconButton>
+                <Store />
+              </IconButton>
+            </Tooltip>
+          ),
+        },
+        {
+          name: 'Gestion de Pedidos',
+          route: '/publicacionessucursal',
+          icon: (
+            <Tooltip title="Gestión de Pedidos" arrow>
+              <IconButton>
+                <BarChart />
+              </IconButton>
+            </Tooltip>
+          ),
+        },
+      ];
+    }
+    if (user.rol_usuario == import.meta.env.VITE_APP_ROLE_SUCURSAL) {
+      settings = [
+        {
+          name: 'Gestión de Stock',
+          route: '/publicacionessucursal',
+          icon: (
+            <Tooltip title="Gestión de Stock" arrow>
+              <IconButton>
+                <Storefront />
+              </IconButton>
+            </Tooltip>
+          ),
+        },
+        {
+          name: 'Gestión de Pedidos',
+          route: '/pedidosSucursal',
+          icon: (
+            <Tooltip title="Gestión de Pedidos" arrow>
+              <IconButton>
+                <LocalMall />
+              </IconButton>
+            </Tooltip>
+          ),
+        },
+      ];
+    }
   }
-  if(user.rol_usuario == import.meta.env.VITE_APP_ROLE_SUCURSAL){
-    settings = [
-      { name: 'Gestión de Stock', route: '/publicacionessucursal', icon: <Storefront /> },
-      { name: 'Gestión de Pedidos', route: '/pedidosSucursal', icon: <LocalMall /> },
-    ];
-  }
-}
 
-opcionesDeMenu();
+  opcionesDeMenu();
 
   const handleDrawerOpen = () => {
     setOpen(true);

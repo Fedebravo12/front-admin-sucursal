@@ -5,6 +5,7 @@ import { Box, TextField, Typography } from "@mui/material";
 import TablaPedidos from "../../components/Sucursal/TablaPedido";
 import Filter from "../../components/Sucursal/Filter"
 import dayjs from 'dayjs';
+import BotonReporte from "../../components/BotonReporte";
 
 
 const ListadoPedidos = () => {
@@ -111,14 +112,40 @@ const ListadoPedidos = () => {
         getPedidos();
     }
 
+    const generarReporte = async () => {
+        // const mes = parseInt(fechaSeleccionada.format('MM'));
+        // const anio = parseInt(fechaSeleccionada.format('YYYY'));
+        // const estado = parseInt(estadoEnvio);
+        // const body = {
+        //     mes,
+        //     anio,
+        //     estado
+        // }
+        // try {
+        //     debugger;
+        //     showLoadingModal();
+        //     const token = localStorage.getItem('token');
+        //     const headers = {
+        //         Authorization: `Bearer ${token}`
+        //     };
+        //     const response = await axios.post(apiLocalKey + "/generarReportePedidosSucursal", body, { headers });
+        //     hideLoadingModal();
+        // }
+        // catch (error) {
+        //     hideLoadingModal();
+
+        // }
+    }
+
 
 
 
     return (
         <Box style={{ position: 'relative' }} sx={{ mr: 2, ml: 2, height: 1, mb: 2 }}>
-            <Typography variant="h5" gutterBottom style={{ marginTop: '30px', marginBottom: '50px' }}>
+            <Typography variant="h5" gutterBottom style={{ marginTop: '20px', marginBottom: '30px' }}>
                 Listado de Pedidos
             </Typography>
+
             <Filter fechaSeleccionada={fechaSeleccionada} changeFecha={onChangeFechaSeleccionada} minDate={minDate} maxDate={maxDate} buscar={buscarPedidos} limpiar={limpiarFiltros} estadosEnvio={estadosEnvio} changeEstadoEnvioFilter={onChangeEstadoEnvio} estadoEnvio={estadoEnvio} />
 
 
@@ -127,7 +154,11 @@ const ListadoPedidos = () => {
                     <Typography variant="h5" sx={{ marginBottom: '20px' }}>No se encontraron pedidos</Typography>
                 </Box>
             ) : (
-                <TablaPedidos pedidos={pedidos} onHandleTransition={handleTransition} />
+                <>
+                    <BotonReporte onClick={generarReporte} />
+
+                    <TablaPedidos pedidos={pedidos} onHandleTransition={handleTransition} />
+                </>
             )}
         </Box>
     );
