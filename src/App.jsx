@@ -1,15 +1,13 @@
-import { useContext, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import axios from 'axios'
+
 import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
 import 'animate.css'
-import Home from './pages/Home'
 import AppRouter from './router/AppRouter';
 import { useAuth0 } from '@auth0/auth0-react';
 import LoadingModal from './components/LoadingModal';
 import { useEffect } from 'react';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import es from 'dayjs/locale/es';
 
 
 
@@ -39,7 +37,11 @@ function App() {
 
   if (isAuthenticated && !isLoading && (user.rol_usuario.includes(rol_admin) || user.rol_usuario.includes(rol_sucursal))) {
     return (
-      <AppRouter />
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={es}>
+
+        <AppRouter />
+      </LocalizationProvider>
+
     )
   }
 

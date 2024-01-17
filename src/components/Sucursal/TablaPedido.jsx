@@ -76,7 +76,6 @@ const formatDate = (date) => {
 
 
 function Row({ pedido, onHandleTransition }) {
-  console.log(import.meta.env.VITE_APP_ESTADO_PEDIDO_INGRESADO)
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const openOptions = Boolean(anchorEl);
