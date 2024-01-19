@@ -105,6 +105,7 @@ const TablaPublicaciones = ({ publicaciones, detallePublicacion }) => {
         columns={myColumns}  // Usa tus propias columnas aquí
         getRowId={(row) => row.idPublicacion}
         rowHeight={100}
+        autoHeight  
         disableColumnFilter
         sx={{
 

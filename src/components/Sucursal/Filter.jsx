@@ -13,7 +13,7 @@ import FormControl from '@mui/material/FormControl';
 
 const Filter = ({ fechaSeleccionada, changeFecha, minDate, maxDate, limpiar, buscar, estadosEnvio, changeEstadoEnvioFilter, estadoEnvio, expanded, changeExpanded }) => {
     return (
-        <Grid container spacing={2} sx={{ mt: 3, mb: 10 }}>
+        <Grid container spacing={2} sx={{ mt: 3, mb: 4 }}>
             <Grid item xs={12}>
                 <Accordion sx={{ backgroundColor: '#F4F4F4', boxShadow: 3}} expanded={expanded} onChange={changeExpanded}>
                     <AccordionSummary
