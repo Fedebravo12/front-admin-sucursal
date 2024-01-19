@@ -185,9 +185,9 @@ const ListadoPublicaciones = () => {
     return (
         <>
 
-            <Box style={{ position: 'relative' }} sx={{ ml:2}}>
+            <Box style={{ position: 'relative' }} sx={{ ml: 2 }}>
 
-                <Typography variant="h5" component="h2" gutterBottom style={{marginTop: '30px', marginBottom: '30px' }}>
+                <Typography variant="h5" component="h2" gutterBottom style={{ marginTop: '30px', marginBottom: '30px' }}>
                     Listado de Productos
                 </Typography>
 
@@ -218,10 +218,20 @@ const ListadoPublicaciones = () => {
                     toggleEditMode={toggleEditMode}
                 />
 
+                {publicaciones.length === 0 ? (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
+                        <Typography variant="h5" sx={{ marginBottom: '20px' }}>No se encontraron productos</Typography>
+                    </Box>
+                ) : (
+
+                    <>
+
+                        <TablaPublicaciones publicaciones={publicaciones} detallePublicacion={handleDetallePublicacion} />
+                    </>
+                )}
 
 
 
-                <TablaPublicaciones publicaciones={publicaciones} detallePublicacion={handleDetallePublicacion} />
 
             </Box>
         </>

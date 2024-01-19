@@ -299,7 +299,7 @@ const ListadoProductos = () => {
             // Agregar el archivo si está seleccionado
             if (selectedFile) {
                 formData.append('archivo', selectedFile);
-            } 
+            }
 
             const token = localStorage.getItem('token');
             const options = {
@@ -496,9 +496,18 @@ const ListadoProductos = () => {
                     toggleEditMode={toggleEditMode}
                 />
 
+                {productos.length === 0 ? (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
+                        <Typography variant="h5" sx={{ marginBottom: '20px' }}>No se encontraron productos</Typography>
+                    </Box>
+                ) : (
 
+                    <>
 
-                <TablaProductos productos={productos} onDelete={handleDeleteProducto} detalleProducto={handleDetalleProducto} />
+                        <TablaProductos productos={productos} onDelete={handleDeleteProducto} detalleProducto={handleDetalleProducto} />
+                    </>
+                )}
+
             </Box>
         </>
     );
