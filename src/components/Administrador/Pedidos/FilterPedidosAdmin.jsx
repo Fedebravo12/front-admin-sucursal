@@ -11,11 +11,11 @@ import FormControl from '@mui/material/FormControl';
 
 
 
-const Filter = ({ fechaSeleccionada, changeFecha, minDate, maxDate, limpiar, buscar, estadosEnvio, changeEstadoEnvioFilter, estadoEnvio, expanded, changeExpanded }) => {
+const FilterPedidosAdmin = ({ sucursales, sucursal, changeSucursal, fechaSeleccionada, changeFecha, minDate, maxDate, limpiar, buscar, estadosEnvio, changeEstadoEnvioFilter, estadoEnvio, expanded, changeExpanded }) => {
     return (
         <Grid container spacing={2} sx={{ mt: 3, mb: 4 }}>
             <Grid item xs={12}>
-                <Accordion sx={{ backgroundColor: '#F4F4F4', boxShadow: 3}} expanded={expanded} onChange={changeExpanded}>
+                <Accordion sx={{ backgroundColor: '#F4F4F4', boxShadow: 3 }} expanded={expanded} onChange={changeExpanded}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel2a-content"
@@ -28,17 +28,41 @@ const Filter = ({ fechaSeleccionada, changeFecha, minDate, maxDate, limpiar, bus
                     <AccordionDetails>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={4} xl={4}>
-                                    <DatePicker
-                                        sx={{ width: '100%' }}
-                                        format='MM/YYYY'
-                                        name='fecha'
-                                        minDate={minDate}
-                                        maxDate={maxDate}
-                                        label={'Mes y Año'}
-                                        views={['year', 'month']}
-                                        value={fechaSeleccionada}
-                                        onChange={changeFecha}
+                                <DatePicker
+                                    sx={{ width: '100%' }}
+                                    format='MM/YYYY'
+                                    name='fecha'
+                                    minDate={minDate}
+                                    maxDate={maxDate}
+                                    label={'Mes y Año'}
+                                    views={['year','month']}
+                                    value={fechaSeleccionada}
+                                    onChange={changeFecha}
+                           
                                     />
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <FormControl>
+                                    <InputLabel id="label-sucursal">Sucursal</InputLabel>
+                                    <Select
+                                        sx={{ width: 450 }}
+                                        labelId="label-sucursal"
+                                        placeholder="Seleccione una sucursal"
+                                        id="sucursal-select"
+                                        label="Sucursal"
+                                        value={sucursal}
+                                        onChange={changeSucursal}
+
+
+                                    >
+                                        {sucursales.map((sucursal) => (
+                                            <MenuItem key={sucursal.idSucursal} value={sucursal.idSucursal}>{sucursal.nombre}</MenuItem>
+                                        ))}
+                                    </Select>
+
+
+
+                                </FormControl>
                             </Grid>
 
                             <Grid item xs={12} sm={4}>
@@ -99,7 +123,7 @@ const Filter = ({ fechaSeleccionada, changeFecha, minDate, maxDate, limpiar, bus
     )
 }
 
-export default Filter;
+export default FilterPedidosAdmin;
 
 
 

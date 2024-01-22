@@ -11,6 +11,7 @@ import Logout from '../components/User/Logout';
 import ListadoSucursales from '../pages/Sucursales/ListadoSucursales';
 import Pedidos from '../pages/Sucursal/Pedidos';
 import ListadoPedidos from '../pages/Sucursal/ListadoPedidos';
+import ListadoPedidosAdmin from '../pages/Administrador/ListadoPedidos';
 
 const ProtectedHome = withAuthenticationRequired(Home);
 
@@ -47,6 +48,7 @@ const AppRouter = () => {
       <Route path="/publicacionessucursal" element={<ProtectedRoute rolesRequired={[rol_sucursal,rol_admin]}><ListadoPublicaciones/></ProtectedRoute>}/>
       {/* <Route path="/sucursales" element={<ProtectedRoute rolesRequired={[rol_sucursal]}><ListadoCategoria /></ProtectedRoute>} /> */}
       <Route path="/pedidosSucursal" element={<ProtectedRoute rolesRequired={[rol_sucursal]}>< ListadoPedidos/></ProtectedRoute>} />
+      <Route path="/pedidosAdmin" element={<ProtectedRoute rolesRequired={[rol_admin]}>< ListadoPedidosAdmin/></ProtectedRoute>} />
 
 
       <Route path="/logout" element={<Logout />} />

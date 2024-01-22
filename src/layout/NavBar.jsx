@@ -192,7 +192,7 @@ const NavBar = ({ children, themeSwitch }) => {
         },
         {
           name: 'Gestion de Pedidos',
-          route: '/publicacionessucursal',
+          route: '/pedidosAdmin',
           icon: (
             <Tooltip title="Gestión de Pedidos" arrow>
               <IconButton>
