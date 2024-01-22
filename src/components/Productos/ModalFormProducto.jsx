@@ -192,7 +192,7 @@ const ModalFormProducto = ({ open, handleClose, categorias, onSubmit, register, 
                         </Box>
                         <Box ml={1}>
                             <label htmlFor="upload-button">
-                                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />} type="button" size="small" sx={{ textTransform: 'none' }}
+                                <Button component="label" variant="contained" startIcon={<CloudUploadIcon sx={{ color: 'white'}}  />} type="button" size="small" sx={{ textTransform: 'none', color: 'white'}}
                                 >
                                     Imagen
                                     <input

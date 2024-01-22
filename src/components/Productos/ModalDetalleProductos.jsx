@@ -216,10 +216,10 @@ const ModalDetalleProductos = ({ open, handleClose, productos, categorias, onSub
                                     <Button
                                         component="label"
                                         variant="contained"
-                                        startIcon={<CloudUploadIcon />}
+                                        startIcon={<CloudUploadIcon sx={{color:'white'}}/>}
                                         type="button"
                                         size="small"
-                                        sx={{ textTransform: 'none' }}
+                                        sx={{ textTransform: 'none', color: 'white'}}
                                     >
                                         Imagen
                                         <input

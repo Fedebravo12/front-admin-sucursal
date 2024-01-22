@@ -124,7 +124,7 @@ const ListadoProductos = () => {
                     const headers = {
                         Authorization: `Bearer ${token}`
                     };
-                    const response = await axios.put(apiLocalKey + '/producto/' + id, {
+                    const response = await axios.put(apiLocalKey + '/producto/' + id, null, {
                         headers: headers,
                     });
                     //muestro el msj de exito

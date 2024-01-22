@@ -60,10 +60,9 @@ const ListadoSucursales = () => {
           axios.get(apiLocalKey + '/sucursales'),
         ]);
 
-        // console.log('Sucursales Data:', sucursales);
-        // const sucursalesArray = sucursalesResponse.data.result;
+      
 
-        setSucursales(sucursales.data.result);
+        setSucursales(sucursales.data.result.filter(sucursal => sucursal.idSucursal != import.meta.env.VITE_APP_SUCURSAL_GENERICA));
         console.log(sucursales.data.result);
 
       } catch (error) {

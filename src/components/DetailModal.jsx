@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useForm } from 'react-hook-form';
+import CloseIcon from '@mui/icons-material/Close';
 
 const DetailModal = ({
   open,
@@ -49,7 +50,8 @@ const DetailModal = ({
   };
 
   return (
-    <Modal open={open} onClose={handleCancel} disableEscapeKeyDown={true}>
+    <Modal open={open} onClose={handleClose} disableEscapeKeyDown={true} 
+    >
       <Box
         sx={{
           position: 'absolute',
@@ -65,8 +67,19 @@ const DetailModal = ({
         component="form"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <IconButton
+                    aria-label="cerrar"
+                    onClick={handleClose}
+                    sx={{
+                        position: 'absolute',
+                        right: 8,
+                        top: 8,
+                    }}
+                >
+                    <CloseIcon />
+                </IconButton>
         <Typography id="modal-title" variant="h5" component="h2">
-          Detalle {item ? item.nombre : ''}
+          Detalle de la Sucursal
           <IconButton onClick={toggleEditMode}>
             <EditIcon />
           </IconButton>
@@ -84,7 +97,7 @@ const DetailModal = ({
             <Box mb={2}>
           <TextField
   fullWidth
-  label="Nombre de la sucursal"
+  label="Nombre"
   placeholder="Ingrese el nombre de la Sucursal"
   InputLabelProps={{ shrink: true }}
   disabled={!isEditMode}
@@ -100,7 +113,7 @@ const DetailModal = ({
 <Box mb={2}>
 <TextField
   fullWidth
-  label="Dirección de la sucursal"
+  label="Dirección"
   placeholder="Ingrese la dirección de la Sucursal"
   InputLabelProps={{ shrink: true }}
   disabled={!isEditMode}
@@ -116,7 +129,7 @@ const DetailModal = ({
 <Box mb={2}>
 <TextField
   fullWidth
-  label="Email de la sucursal"
+  label="Email"
   placeholder="Ingrese el email de la Sucursal"
   InputLabelProps={{ shrink: true }}
   disabled={!isEditMode}
