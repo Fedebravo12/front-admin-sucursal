@@ -5,8 +5,6 @@ import { AuthContext } from '../components/User/AuthContext';
 const ProtectedRoute = ({ rolesRequired, children }) => {
   const { role, loading, initializationDone } = useContext(AuthContext);
   if (!initializationDone) return null;
-  console.log('roles',role);
-  console.log('rolesRequired', rolesRequired);
   if (loading) return null;
 
   if (role && Array.isArray(rolesRequired) && rolesRequired.some(requiredRole => role.includes(requiredRole))) {

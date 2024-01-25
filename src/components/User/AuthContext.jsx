@@ -31,9 +31,7 @@ export const AuthProvider = ({ children }) => {
           window.location.href = url_app_cliente;
 
         }
-
-
-
+        
         setUserToken(tokenClaims.__raw);
         localStorage.setItem('token', tokenClaims.__raw);
         setUserRole(tokenClaims.rol_usuario);

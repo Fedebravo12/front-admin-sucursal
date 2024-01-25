@@ -169,7 +169,7 @@ const opcionesDeMenu = () => {
     settings = [
       { name: 'Gestión de Productos', route: '/productosadmin', icon: <LocalMall /> },
       { name: 'Gestión de Sucursales', route: '/sucursales', icon: <Store /> },
-      { name: 'Estadísticas de Ventas', route: '/publicacionessucursal', icon: <BarChart /> },
+      { name: 'Estadísticas de Ventas', route: '/ventas', icon: <BarChart /> },
       { name: 'Inventario', route: '/inventory', icon: <Storefront /> },
     ];
   }

@@ -1,10 +1,13 @@
+import { useContext } from "react";
+import { AuthContext } from "../components/User/AuthContext";
+import { Navigate } from "react-router-dom";
 
 
 const Home = () => {
+  const { role } = useContext(AuthContext);
     return (
-        <div>
-            <h1>Home</h1>
-        </div>
+        role === 'admin' ? <Navigate to="/admin" /> : <Navigate to="/sucursal" />
+        
     )
 }
 export default Home;
