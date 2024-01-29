@@ -175,7 +175,7 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicacion, onSubmit, r
 
 
                     </Box> */}
-
+{/* 
                     <Box mt={3} mb={3}>
                         <TextField fullWidth
                             mb={2}
@@ -190,7 +190,7 @@ const ModalDetallePublicaciones = ({ open, handleClose, publicacion, onSubmit, r
                         />
 
 
-                    </Box>
+                    </Box> */}
                     <Typography id="modal-title" variant="h5" component="h2">
                         Modificar Stock
                         <IconButton onClick={toggleEditMode}>

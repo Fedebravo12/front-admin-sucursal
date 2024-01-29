@@ -9,7 +9,8 @@ import LoadingModal from '../../components/LoadingModal.jsx';
 import FormModal from '../../components/FormModal.jsx';
 import DetailModal from '../../components/DetailModal.jsx';
 import GenericTable from '../../components/GenericTable.jsx';
-import {GridActionsCellItem
+import {
+  GridActionsCellItem
 } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
@@ -59,10 +60,9 @@ const ListadoSucursales = () => {
           axios.get(apiLocalKey + '/sucursales'),
         ]);
 
-        // console.log('Sucursales Data:', sucursales);
-        // const sucursalesArray = sucursalesResponse.data.result;
+      
 
-        setSucursales(sucursales.data.result);
+        setSucursales(sucursales.data.result.filter(sucursal => sucursal.idSucursal != import.meta.env.VITE_APP_SUCURSAL_GENERICA));
         console.log(sucursales.data.result);
 
       } catch (error) {
@@ -99,19 +99,19 @@ const ListadoSucursales = () => {
           showLoadingModal();
 
           const token = localStorage.getItem('token');
-    
-    debugger;
 
-    const response = await axios.put(
-      apiLocalKey + '/sucursales/' + id,
-      null,  // No request body, as it is a DELETE request
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    
+          debugger;
+
+          const response = await axios.put(
+            apiLocalKey + '/sucursales/' + id,
+            null,  // No request body, as it is a DELETE request
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
 
           Swal.fire({
             position: 'center',
@@ -119,6 +119,9 @@ const ListadoSucursales = () => {
             allowOutsideClick: false,
             title: 'Sucursal eliminada correctamente',
             showConfirmButton: true,
+            confirmButtonText: 'Aceptar',
+
+
           }).then((result) => {
             if (result.isConfirmed) {
               setReload((prev) => !prev);
@@ -135,33 +138,76 @@ const ListadoSucursales = () => {
         allowOutsideClick: false,
         title: 'Hubo un error al eliminar la sucursal',
         showConfirmButton: true,
+        confirmButtonText: 'Aceptar',
+
       });
     }
   };
 
   const onSubmit = async (data) => {
-    handleCloseModal();
+    try {
 
-    showLoadingModal();
-    
-    const token = localStorage.getItem('token');
-    const headers = {
+      handleCloseModal();
+
+      showLoadingModal();
+
+      const token = localStorage.getItem('token');
+      const headers = {
         Authorization: `Bearer ${token}`,
-    };
-    const response = await axios.post(apiLocalKey + '/sucursal', data, { headers: headers });
+      };
+      const response = await axios.post(apiLocalKey + '/sucursal', data, { headers: headers });
 
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      allowOutsideClick: false,
-      title: 'Sucursal agregada correctamente',
-      showConfirmButton: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setReload((prev) => !prev);
-        hideLoadingModal();
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        allowOutsideClick: false,
+        title: 'Sucursal agregada correctamente',
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setReload((prev) => !prev);
+          hideLoadingModal();
+        }
+      });
+    }
+    catch (error) {
+      hideLoadingModal();
+
+      if (error.code == import.meta.env.VITE_APP_NETWORK_ERROR) {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          allowOutsideClick: false,
+          title: "Hubo un error al agregar la sucursal",
+          text: "No se pudo conectar con el servidor",
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar',
+        });
       }
-    });
+
+      if (error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_FORBIDDEN || error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_UNAUTHORIZED) {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          allowOutsideClick: false,
+          title: "Hubo un error al cargar la sucursal",
+          text: "No tienes permiso para realizar esta acción",
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar',
+        });
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          allowOutsideClick: false,
+          title: "Hubo un error al agregar la sucursal",
+          text: error.response.data.responseException.exceptionMessage,
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar',
+
+        });
+      }
+    }
   };
 
   const toggleEditMode = () => {
@@ -170,27 +216,57 @@ const ListadoSucursales = () => {
 
   const onSubmitEdit = async (data) => {
 
-    handleCloseModalDetalle();
+    try {
+      handleCloseModalDetalle();
 
-    showLoadingModal();
-    const token = localStorage.getItem('token');
-    const headers = {
+      showLoadingModal();
+      const token = localStorage.getItem('token');
+      const headers = {
         Authorization: `Bearer ${token}`,
-    };
-    const response = await axios.put(apiLocalKey + '/sucursal', data, { headers: headers });
+      };
+      const response = await axios.put(apiLocalKey + '/sucursal', data, { headers: headers });
 
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      allowOutsideClick: false,
-      title: 'Sucursal editada correctamente',
-      showConfirmButton: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setReload((prev) => !prev);
-        hideLoadingModal();
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        allowOutsideClick: false,
+        title: 'Sucursal editada correctamente',
+        showConfirmButton: true,
+        confirmButtonText: 'Aceptar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setReload((prev) => !prev);
+          hideLoadingModal();
+        }
+      });
+    }
+    catch (error) {
+      debugger;
+      hideLoadingModal();
+      console.log(import.meta.env.VITE_APP_API_ERROR_CODE_FORBIDDEN);
+
+      if (error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_FORBIDDEN || error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_UNAUTHORIZED) {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          allowOutsideClick: false,
+          title: "Hubo un error al editar la Sucursal",
+          text: "No tienes permiso para realizar esta acción",
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar',
+        });
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          allowOutsideClick: false,
+          title: "Hubo un error al editar la sucursal",
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar',
+
+        });
       }
-    });
+    }
   };
 
   const handleDetalleSucursal = async (id) => {
@@ -198,10 +274,10 @@ const ListadoSucursales = () => {
     try {
       const token = localStorage.getItem('token');
       const headers = {
-          Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       };
       showLoadingModal();
-      const res = await axios.get(apiLocalKey + '/sucursal/' + id,  { headers: headers });
+      const res = await axios.get(apiLocalKey + '/sucursal/' + id, { headers: headers });
       setSucursal(res.data.result.data);
 
       setValue('idSucursal', res.data.result.data.idSucursal);
@@ -209,8 +285,8 @@ const ListadoSucursales = () => {
       setValue('direccion', res.data.result.data.direccion);
       setValue('emailSucursal', res.data.result.data.emailSucursal);
 
-       hideLoadingModal();
-       setOpenModalDetalle(true);
+      hideLoadingModal();
+      setOpenModalDetalle(true);
     } catch (error) {
       console.log(error);
       hideLoadingModal();
@@ -257,8 +333,8 @@ const ListadoSucursales = () => {
 
   const columns = [
     { field: 'nombre', headerName: 'Nombre', width: 400, flex: 2, valueGetter: (params) => params.row.nombre },
-    { field: 'direccion', headerName: 'Dirección', width: 400, flex: 2},
-    { field: 'emailSucursal', headerName: 'Email', width: 400, flex: 2},
+    { field: 'direccion', headerName: 'Dirección', width: 400, flex: 2 },
+    { field: 'emailSucursal', headerName: 'Email', width: 400, flex: 2 },
     {
       field: 'actions',
       type: 'actions',
@@ -325,22 +401,24 @@ const ListadoSucursales = () => {
           ]}
         />
 
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          spacing={{ xs: 2, md: 2 }}
-          columns={{ xs: 1, sm: 2, md: 2, lg: 4, xl: 6 }}
-        >
-          <GenericTable
-            rows={sucursales}
-            columns={columns}
-            getRowId={(row) => row.idSucursal}
-            onDelete={handleDeleteSucursal}
-            onDetail={handleDetalleSucursal}
-          />
-        </Grid>
+        {sucursales.length === 0 ? (
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
+            <Typography variant="h5" sx={{ marginBottom: '20px' }}>No se encontraron sucursales</Typography>
+          </Box>
+        ) : (
+
+          <>
+
+            <GenericTable
+              rows={sucursales}
+              columns={columns}
+              getRowId={(row) => row.idSucursal}
+              onDelete={handleDeleteSucursal}
+              onDetail={handleDetalleSucursal}
+            />          </>
+        )}
+
+
       </Box>
     </>
   );

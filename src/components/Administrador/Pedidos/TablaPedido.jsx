@@ -75,7 +75,7 @@ const formatDate = (date) => {
 
 
 
-function Row({ pedido, onHandleTransition }) {
+function Row({ pedido }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const openOptions = Boolean(anchorEl);
@@ -84,16 +84,7 @@ function Row({ pedido, onHandleTransition }) {
     setAnchorEl(event.currentTarget);
     // setSelectedId(idPedido);
   };
-  const handleMenuClick = (idEstadoEnvio, idPedido) => {
-    debugger;
-    onHandleTransition(idEstadoEnvio, idPedido);
-    handleClose();
-};
 
-  const handleClose = () => {
-    setAnchorEl(null);
-    setSelectedId(null);
-  };
   const [open, setOpen] = useState(false);
 
   return (
@@ -114,33 +105,7 @@ function Row({ pedido, onHandleTransition }) {
         <TableCell>{formatDate(pedido.fecha)}</TableCell>
         <TableCell>{pedido.emailUsuario}</TableCell>
         <TableCell>
-          <div>
             {pedido.estadoEnvio}
-            {pedido.idEstadoEnvio != null && pedido.idEstadoEnvio != import.meta.env.VITE_APP_ESTADO_PEDIDO_ENTREGADO && (
-              <IconButton
-                sx={{ ml: 0.5 }}
-                aria-label="more"
-                onClick={(event) => handleClick(event)}
-              >
-                <MoreVertIcon />
-              </IconButton>
-            )}
-          </div>
-          <Menu
-            anchorEl={anchorEl}
-            open={openOptions}
-            onClose={handleClose}
-          >
-            {pedido.idEstadoEnvio == import.meta.env.VITE_APP_ESTADO_PEDIDO_INGRESADO && (
-              <MenuItem onClick={() => handleMenuClick(parseInt(import.meta.env.VITE_APP_ESTADO_PEDIDO_ENVIADO), pedido.id)}>
-                Cambiar estado a Enviado
-              </MenuItem>
-            )}
-            {pedido.idEstadoEnvio == import.meta.env.VITE_APP_ESTADO_PEDIDO_ENVIADO && (
-              <MenuItem onClick={() => handleMenuClick(parseInt(import.meta.env.VITE_APP_ESTADO_PEDIDO_ENTREGADO), pedido.id)}>
-                Cambiar estado a Entregado
-              </MenuItem>
-            )}          </Menu>
         </TableCell>
 
         <TableCell style={numericCellStyle} sx={{ fontWeight: 'bold' }}>
@@ -190,7 +155,7 @@ function Row({ pedido, onHandleTransition }) {
   );
 }
 
-const TablaPedidos = ({ pedidos, onHandleTransition }) => {
+const TablaPedidosAdministrador = ({ pedidos, onHandleTransition }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const totalPedidos = Array.isArray(pedidos) ? pedidos.length : 0;
@@ -222,7 +187,7 @@ const TablaPedidos = ({ pedidos, onHandleTransition }) => {
         </TableHead>
         <TableBody>
         {pedidos && pedidos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((pedido) => (
-            <Row key={pedido.id} pedido={pedido} onHandleTransition={onHandleTransition} />
+            <Row key={pedido.id} pedido={pedido} />
         ))}
         </TableBody>
         {/* <TableFooter>
@@ -250,4 +215,4 @@ const TablaPedidos = ({ pedidos, onHandleTransition }) => {
     </TableContainer>
   );
 }
-export default TablaPedidos;
+export default TablaPedidosAdministrador;

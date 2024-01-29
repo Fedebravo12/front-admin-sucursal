@@ -11,6 +11,7 @@ import Logout from '../components/User/Logout';
 import ListadoSucursales from '../pages/Sucursales/ListadoSucursales';
 import GraficoVentasAdministrador from '../components/Ventas/GraficoVentasAdministrador';
 import ListadoPedidos from '../pages/Sucursal/ListadoPedidos';
+import ListadoPedidosAdmin from '../pages/Administrador/ListadoPedidos';
 import GraficoVentasSucursal from '../components/Ventas/GraficoVentasSucursal';
 import { AuthContext } from '../components/User/AuthContext';
 import { redirect } from 'react-router-dom';
@@ -32,6 +33,7 @@ const AppRouter = () => {
       {/* <Route path='/ventas' element={<ProtectedRoute rolesRequired={[rol_admin]}><GraficoVentas/></ProtectedRoute>} /> */}
       {/* <Route path="/sucursales" element={<ProtectedRoute rolesRequired={[rol_sucursal]}><ListadoCategoria /></ProtectedRoute>} /> */}
       <Route path="/pedidosSucursal" element={<ProtectedRoute rolesRequired={[rol_sucursal]}>< ListadoPedidos/></ProtectedRoute>} />
+      <Route path="/pedidosAdmin" element={<ProtectedRoute rolesRequired={[rol_admin]}>< ListadoPedidosAdmin/></ProtectedRoute>} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/sucursales" element={<ProtectedRoute rolesRequired={[rol_admin]}><ListadoSucursales /></ProtectedRoute>} />
       <Route path="/sucursal" element={<ProtectedRoute rolesRequired={[rol_sucursal]}><GraficoVentasSucursal/></ProtectedRoute>} />

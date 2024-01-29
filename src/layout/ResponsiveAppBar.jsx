@@ -17,9 +17,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 
 const settings = [
-  { id: 1, name: 'Cuenta', route: '/cuenta' },
-  { id: 2, name: 'Dashboard', route: '/dashboard' },
-  { id: 3, name: 'Cerrar sesión', route: '/logout' }
+
+  { id: 1, name: 'Cerrar sesión', route: '/logout' }
 ]
 
 

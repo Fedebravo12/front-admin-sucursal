@@ -1,13 +1,14 @@
-//SUCURSAL
+//ADMINISTRADOR
 
 import { useEffect, useState } from "react";
 import axios from "axios";
 import LoadingModal from "../../components/LoadingModal";
 import { Box, TextField, Typography } from "@mui/material";
-import TablaPedidos from "../../components/Sucursal/TablaPedido";
-import Filter from "../../components/Sucursal/Filter"
+import TablaPedidosAdministrador from "../../components/Administrador/Pedidos/TablaPedido";
+import FilterPedidosAdmin from "../../components/Administrador/Pedidos/FilterPedidosAdmin";
 import dayjs from 'dayjs';
 import BotonReporte from "../../components/BotonReporte";
+import { set } from "date-fns";
 
 
 const ListadoPedidos = () => {
@@ -15,8 +16,10 @@ const ListadoPedidos = () => {
     const [pedidos, setPedidos] = useState([]);
     const { showLoadingModal, hideLoadingModal } = LoadingModal();
     const [fechaSeleccionada, setFechaSeleccionada] = useState(dayjs());
+    const [sucursales, setSucursales] = useState([]);
     const [estadoEnvio, setEstadoEnvio] = useState(0);
     const [expanded, setExpanded] = useState(true);
+    const [sucursal, setSucursal] = useState(1);
 
     //defino las fechas minimas y maximas para mostrar en el calendario
     const minDate = dayjs(new Date(2022, 0, 1));
@@ -32,8 +35,7 @@ const ListadoPedidos = () => {
 
 
     useEffect(() => {
-        limpiarFiltros();
-        getPedidos();
+        getSucursales();
     }, []);
 
     const onChangeFechaSeleccionada = (fecha) => {
@@ -45,33 +47,39 @@ const ListadoPedidos = () => {
         setEstadoEnvio(event.target.value);
     }
 
+    const handleSucursalChange = (event) => {
+        console.log(sucursal);
+        debugger;
+        setSucursal(event.target.value);
+    }
+
     const onChangeExpanded = () => {
         setExpanded(!expanded);
     }
 
 
     const handleTransition = async (idEstadoEnvio, idPedido) => {
-        debugger;
-        try {
+        // debugger;
+        // try {
 
-            const token = localStorage.getItem('token');
-            const headers = {
-                Authorization: `Bearer ${token}`
-            };
-            const body = {
-                idEstadoEnvio,
-                idPedido
-            }
-            const response = await axios.put(apiLocalKey + "/CambiarEstadoEnvio", body, { headers });
-            setReload(!reload);
+        //     const token = localStorage.getItem('token');
+        //     const headers = {
+        //         Authorization: `Bearer ${token}`
+        //     };
+        //     const body = {
+        //         idEstadoEnvio,
+        //         idPedido
+        //     }
+        //     const response = await axios.put(apiLocalKey + "/CambiarEstadoEnvio", body, { headers });
+        //     setReload(!reload);
 
-        } catch (error) {
-            hideLoadingModal();
-        }
+        // } catch (error) {
+        //     hideLoadingModal();
+        // }
     }
 
 
-    const getPedidos = async () => {
+    const getSucursales = async () => {
         try {
             debugger;
             showLoadingModal();
@@ -80,8 +88,12 @@ const ListadoPedidos = () => {
                 Authorization: `Bearer ${token}`
             };
 
-            const response = await axios.get(apiLocalKey + "/getPedidosSucursal", { headers });
-            setPedidos(response.data.result);
+            const [ sucursales] = await Promise.all([
+                axios.get(apiLocalKey + '/sucursales')
+            ]);
+            // setPedidos(response.data.result);
+            setSucursales(sucursales.data.result);
+            console.log(sucursales.data.result);
             hideLoadingModal();
         } catch (error) {
             hideLoadingModal();
@@ -89,12 +101,15 @@ const ListadoPedidos = () => {
     }
 
     const buscarPedidos = async () => {
+        debugger;
         const mes = parseInt(fechaSeleccionada.format('MM'));
         const anio = parseInt(fechaSeleccionada.format('YYYY'));
+        const sucursalSeleccionada = parseInt(sucursal);
         const estado = parseInt(estadoEnvio);
         const body = {
             mes,
             anio,
+            sucursalSeleccionada,
             estado
         }
         try {
@@ -104,7 +119,7 @@ const ListadoPedidos = () => {
             const headers = {
                 Authorization: `Bearer ${token}`
             };
-            const response = await axios.post(apiLocalKey + "/filtrarPedidosSucursal", body, { headers });
+            const response = await axios.post(apiLocalKey + "/filtrarPedidosAdministrador", body, { headers });
             setPedidos(response.data.result);
             hideLoadingModal();
         }
@@ -115,12 +130,15 @@ const ListadoPedidos = () => {
     }
 
     const limpiarFiltros = async () => {
+        debugger;
         setFechaSeleccionada(dayjs());
         setEstadoEnvio(0);
-        getPedidos();
+        setSucursal(1);
+        setPedidos([]);
     }
 
     const generarReporte = async () => {
+        debugger;
         try {
             showLoadingModal();
             const token = localStorage.getItem('token');
@@ -132,10 +150,11 @@ const ListadoPedidos = () => {
             const body = {
                 mes: parseInt(fechaSeleccionada.format('MM')),
                 anio: parseInt(fechaSeleccionada.format('YYYY')),
+                sucursalSeleccionada: parseInt(sucursal),
         
             }
 
-            const response = await axios.post(apiLocalKey + "/generarReportePedidosSucursal", body, { headers });
+            const response = await axios.post(apiLocalKey + "/generarReportePedidosAdministrador", body, { headers });
 
             // La API envuelve la respuesta en un objeto, así que necesitamos acceder a la propiedad 'result' y luego a 'pdf'
             const pdfBase64 = response.data.result.pdf;
@@ -197,18 +216,19 @@ const ListadoPedidos = () => {
                 Listado de Pedidos
             </Typography>
 
-            <Filter fechaSeleccionada={fechaSeleccionada} changeFecha={onChangeFechaSeleccionada} minDate={minDate} maxDate={maxDate} buscar={buscarPedidos} limpiar={limpiarFiltros} estadosEnvio={estadosEnvio} changeEstadoEnvioFilter={onChangeEstadoEnvio} estadoEnvio={estadoEnvio} expanded={expanded} changeExpanded={onChangeExpanded} />
+            <FilterPedidosAdmin sucursales={sucursales} sucursal={sucursal} changeSucursal={handleSucursalChange} fechaSeleccionada={fechaSeleccionada} changeFecha={onChangeFechaSeleccionada} minDate={minDate} maxDate={maxDate} buscar={buscarPedidos} limpiar={limpiarFiltros} estadosEnvio={estadosEnvio} changeEstadoEnvioFilter={onChangeEstadoEnvio} estadoEnvio={estadoEnvio} expanded={expanded} changeExpanded={onChangeExpanded} />
 
 
             {pedidos.length === 0 ? (
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '40vh' }}>
                     <Typography variant="h5" sx={{ marginBottom: '20px' }}>No se encontraron pedidos</Typography>
+                    <Typography variant="h6" sx={{ marginBottom: '20px' }}>Recuerde seleccionar una sucursal y una fecha válida</Typography>
                 </Box>
             ) : (
                 <>
                     <BotonReporte onClick={generarReporte} />
 
-                    <TablaPedidos pedidos={pedidos} onHandleTransition={handleTransition} />
+                    <TablaPedidosAdministrador pedidos={pedidos}  />
                 </>
             )}
         </Box>
