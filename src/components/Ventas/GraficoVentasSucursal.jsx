@@ -7,7 +7,7 @@ import { Box, Typography } from "@mui/material";
 
 function GraficoVentasSucursal() {
   const apiLocalKey = import.meta.env.VITE_APP_API_KEY;
-  const { showLoadingModal, hideLoadingModal, isLoading } = LoadingModal();
+  const { showLoadingModal, hideLoadingModal } = LoadingModal();
   const [months, setMonths] = useState([]);
   const [cantidadVentas, setCantidadVentas] = useState([]);
   const [isMounted, setIsMounted] = useState(false);
@@ -23,8 +23,7 @@ function GraficoVentasSucursal() {
       return month.getMonth() + 1 + '/' + month.getFullYear();
     });
 
-    const reversedMonths = [...last6Months].reverse();
-    setMonths(reversedMonths);
+    setMonths(last6Months);
     hideLoadingModal();
     
   }, []); // Empty dependency array
@@ -32,9 +31,11 @@ function GraficoVentasSucursal() {
   
 
 useEffect(() => {
-  if (!isLoading && months.length > 0) {
+  if (months.length > 0) {
+    showLoadingModal();
     const loadData = async () => {
       try {
+
         const token = localStorage.getItem('token');
         const options = {
           headers: {
@@ -44,6 +45,7 @@ useEffect(() => {
     
         // Use map to create an array of promises for each API call
         const promises = months.map(async (date) => {
+
           const dateParts = date.split('/');
           const month = dateParts[0];
           const year = dateParts[1];
@@ -68,7 +70,7 @@ useEffect(() => {
     
     loadData();
   }
-  }, [isLoading , months]);
+  }, [months]);
   
 
   const transformDataForBarChart = (ventasPerMonth) => {
@@ -117,7 +119,7 @@ useEffect(() => {
     
 
     ) : (
-      <div>Loading data...</div>
+      <div></div>
     )
   );
   

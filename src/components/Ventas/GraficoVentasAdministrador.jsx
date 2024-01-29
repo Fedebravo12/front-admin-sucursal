@@ -7,11 +7,12 @@ import { Box, Typography } from '@mui/material';
 
 function GraficoVentasAdministrador() {
   const apiLocalKey = import.meta.env.VITE_APP_API_KEY;
-  const { hideLoadingModal } = LoadingModal();
+  const { showLoadingModal,hideLoadingModal } = LoadingModal();
   const [cantidadVentas, setCantidadVentas] = useState([]);
   useEffect(() => {
     const loadData = async () => {
       try {
+        showLoadingModal();
         const token = localStorage.getItem('token');
         const options = {
           headers: {
@@ -58,7 +59,7 @@ function GraficoVentasAdministrador() {
       
     />
     </Box>
-    </>) : (<div>Cargando</div>)
+    </>) : (<div></div>)
     
   )
 }

@@ -26,7 +26,7 @@ const FilterPedidosAdmin = ({ sucursales, sucursal, changeSucursal, fechaSelecci
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Grid container spacing={2}>
+                        <Grid container spacing={1}>
                             <Grid item xs={12} sm={4} xl={4}>
                                 <DatePicker
                                     sx={{ width: '100%' }}
@@ -42,10 +42,9 @@ const FilterPedidosAdmin = ({ sucursales, sucursal, changeSucursal, fechaSelecci
                                     />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <FormControl>
+                                <FormControl fullWidth>
                                     <InputLabel id="label-sucursal">Sucursal</InputLabel>
                                     <Select
-                                        sx={{ width: 450 }}
                                         labelId="label-sucursal"
                                         placeholder="Seleccione una sucursal"
                                         id="sucursal-select"
@@ -68,7 +67,8 @@ const FilterPedidosAdmin = ({ sucursales, sucursal, changeSucursal, fechaSelecci
                             <Grid item xs={12} sm={4}>
                                 <FormControl fullWidth>
                                     <InputLabel id="label-estado-envio">Estado envío</InputLabel>
-                                    <Select
+                                    <Select  
+                                                                      
                                         labelId="label-estado-envio"
                                         id="estado-envio"
                                         label="Estado envío"
