@@ -7,7 +7,7 @@ import { Box, Typography } from '@mui/material';
 
 function GraficoVentasAdministrador() {
   const apiLocalKey = import.meta.env.VITE_APP_API_KEY;
-  const { showLoadingModal, hideLoadingModal, isLoading } = LoadingModal();
+  const { hideLoadingModal } = LoadingModal();
   const [cantidadVentas, setCantidadVentas] = useState([]);
   useEffect(() => {
     const loadData = async () => {
@@ -31,7 +31,7 @@ function GraficoVentasAdministrador() {
     }
     loadData();
   }
-    , []); // Empty dependency array
+    , []); 
 
 
     const transformDataForBarChart = (data) => {
@@ -42,7 +42,6 @@ function GraficoVentasAdministrador() {
     };
     
 
- console.log(cantidadVentas)
   return (
     cantidadVentas.length >0 & cantidadVentas != undefined ? (
       <>
@@ -52,7 +51,7 @@ function GraficoVentasAdministrador() {
   </Typography>
     <BarChart
     xAxis={[{scaleType: "band", dataKey: 'x' }]}
-    series={[{ type: 'bar', dataKey: 'y' }]}
+    series={[{ type: 'bar', dataKey: 'y' , color: '#c4c6f5'}]}
     dataset={cantidadVentas}
     width={1500}
     height={600}

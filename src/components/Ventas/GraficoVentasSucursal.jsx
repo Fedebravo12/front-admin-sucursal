@@ -95,21 +95,22 @@ useEffect(() => {
     ];
     return monthsArray[monthNumber - 1];
   };
+
+
   return (
     
     cantidadVentas.length > 0 ? (
       <>  
       <Box style={{ position: 'relative' }} sx={{ ml:2}}>
       <Typography variant="h5" component="h2" gutterBottom style={{marginTop: '30px', marginBottom: '30px' }}>
-      Ventas por mes
+      Ventas de los últimos 6 meses
   </Typography>
       <BarChart
       xAxis={[{ scaleType: "band", dataKey: "x", tickFormatter: getMonthName }]}
-        series={[{ type: 'bar', dataKey: 'y' }]}
+        series={[{ type: 'bar', dataKey: 'y', color: '#c4c6f5'}]}
         dataset={cantidadVentas}
         width={1500}
         height={600}
-        style={{ marginTop: '100px' , marginLeft: '100px', flex: '1', alignItems: 'center'}}
       />
       </Box>
       </>
