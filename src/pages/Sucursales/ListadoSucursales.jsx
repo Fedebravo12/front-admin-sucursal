@@ -60,7 +60,7 @@ const ListadoSucursales = () => {
           axios.get(apiLocalKey + '/sucursales'),
         ]);
 
-      
+
 
         setSucursales(sucursales.data.result.filter(sucursal => sucursal.idSucursal != import.meta.env.VITE_APP_SUCURSAL_GENERICA));
         console.log(sucursales.data.result);
@@ -245,7 +245,7 @@ const ListadoSucursales = () => {
       hideLoadingModal();
       console.log(import.meta.env.VITE_APP_API_ERROR_CODE_FORBIDDEN);
 
-      if (error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_FORBIDDEN || error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_UNAUTHORIZED) {
+      if (error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_UNAUTHORIZED) {
         Swal.fire({
           position: "center",
           icon: "error",
@@ -255,7 +255,19 @@ const ListadoSucursales = () => {
           showConfirmButton: true,
           confirmButtonText: 'Aceptar',
         });
-      } else {
+      }
+      else if (error.response.status == import.meta.env.VITE_APP_API_ERROR_CODE_BAD_REQUEST) {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          allowOutsideClick: false,
+          title: "Hubo un error al editar la Sucursal",
+          text: error.response.data.responseException.exceptionMessage,
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar',
+        });
+      }
+      else {
         Swal.fire({
           position: "center",
           icon: "error",
