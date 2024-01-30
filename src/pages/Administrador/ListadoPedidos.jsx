@@ -8,6 +8,7 @@ import TablaPedidosAdministrador from "../../components/Administrador/Pedidos/Ta
 import FilterPedidosAdmin from "../../components/Administrador/Pedidos/FilterPedidosAdmin";
 import dayjs from 'dayjs';
 import BotonReporte from "../../components/BotonReporte";
+
 import { set } from "date-fns";
 
 
@@ -20,6 +21,8 @@ const ListadoPedidos = () => {
     const [estadoEnvio, setEstadoEnvio] = useState(0);
     const [expanded, setExpanded] = useState(true);
     const [sucursal, setSucursal] = useState(1);
+    const [busquedaRealizada, setBusquedaRealizada] = useState(false);
+
 
     //defino las fechas minimas y maximas para mostrar en el calendario
     const minDate = dayjs(new Date(2022, 0, 1));
@@ -88,7 +91,7 @@ const ListadoPedidos = () => {
                 Authorization: `Bearer ${token}`
             };
 
-            const [ sucursales] = await Promise.all([
+            const [sucursales] = await Promise.all([
                 axios.get(apiLocalKey + '/sucursales')
             ]);
             // setPedidos(response.data.result);
@@ -121,6 +124,8 @@ const ListadoPedidos = () => {
             };
             const response = await axios.post(apiLocalKey + "/filtrarPedidosAdministrador", body, { headers });
             setPedidos(response.data.result);
+            setBusquedaRealizada(true);
+
             hideLoadingModal();
         }
         catch (error) {
@@ -135,6 +140,7 @@ const ListadoPedidos = () => {
         setEstadoEnvio(0);
         setSucursal(1);
         setPedidos([]);
+        setBusquedaRealizada(false); 
     }
 
     const generarReporte = async () => {
@@ -151,7 +157,7 @@ const ListadoPedidos = () => {
                 mes: parseInt(fechaSeleccionada.format('MM')),
                 anio: parseInt(fechaSeleccionada.format('YYYY')),
                 sucursalSeleccionada: parseInt(sucursal),
-        
+
             }
 
             const response = await axios.post(apiLocalKey + "/generarReportePedidosAdministrador", body, { headers });
@@ -200,8 +206,8 @@ const ListadoPedidos = () => {
         //convierto el array de bytes en un int8Array que es una clase nativa de JavaScript para manejar arrays de bytes
         const byteArray = new Uint8Array(byteNumbers);
         //convierto el int8Array en un objeto Blob, que es el tipo de objeto que acepta la propiedad href del enlace
-        return new Blob([byteArray], {type: mimeType});
-    };    
+        return new Blob([byteArray], { type: mimeType });
+    };
 
 
 
@@ -215,23 +221,38 @@ const ListadoPedidos = () => {
             <Typography variant="h5" gutterBottom style={{ marginTop: '20px', marginBottom: '30px' }}>
                 Listado de Pedidos
             </Typography>
-
-            <FilterPedidosAdmin sucursales={sucursales} sucursal={sucursal} changeSucursal={handleSucursalChange} fechaSeleccionada={fechaSeleccionada} changeFecha={onChangeFechaSeleccionada} minDate={minDate} maxDate={maxDate} buscar={buscarPedidos} limpiar={limpiarFiltros} estadosEnvio={estadosEnvio} changeEstadoEnvioFilter={onChangeEstadoEnvio} estadoEnvio={estadoEnvio} expanded={expanded} changeExpanded={onChangeExpanded} />
-
-
-            {pedidos.length === 0 ? (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '40vh' }}>
-                    <Typography variant="h5" sx={{ marginBottom: '20px' }}>No se encontraron pedidos</Typography>
-                    <Typography variant="h6" sx={{ marginBottom: '20px' }}>Recuerde seleccionar una sucursal y una fecha válida</Typography>
-                </Box>
-            ) : (
-                <>
-                    <BotonReporte onClick={generarReporte} />
-
-                    <TablaPedidosAdministrador pedidos={pedidos}  />
-                </>
-            )}
+    
+            <FilterPedidosAdmin 
+                sucursales={sucursales} 
+                sucursal={sucursal} 
+                changeSucursal={handleSucursalChange} 
+                fechaSeleccionada={fechaSeleccionada} 
+                changeFecha={onChangeFechaSeleccionada} 
+                minDate={minDate} 
+                maxDate={maxDate} 
+                buscar={buscarPedidos} 
+                limpiar={limpiarFiltros} 
+                estadosEnvio={estadosEnvio} 
+                changeEstadoEnvioFilter={onChangeEstadoEnvio} 
+                estadoEnvio={estadoEnvio} 
+                expanded={expanded} 
+                changeExpanded={onChangeExpanded} 
+            />
+    
+            {busquedaRealizada ? (
+                pedidos.length > 0 ? (
+                    <>
+                        <BotonReporte onClick={generarReporte} />
+                        <TablaPedidosAdministrador pedidos={pedidos} />
+                    </>
+                ) : (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '40vh' }}>
+                        <Typography variant="h5" sx={{ marginBottom: '20px' }}>No se encontraron pedidos</Typography>
+                    </Box>
+                )
+            ) : null}
         </Box>
     );
+    
 };
 export default ListadoPedidos;
