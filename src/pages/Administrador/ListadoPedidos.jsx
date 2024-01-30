@@ -61,25 +61,7 @@ const ListadoPedidos = () => {
     }
 
 
-    const handleTransition = async (idEstadoEnvio, idPedido) => {
-        // debugger;
-        // try {
 
-        //     const token = localStorage.getItem('token');
-        //     const headers = {
-        //         Authorization: `Bearer ${token}`
-        //     };
-        //     const body = {
-        //         idEstadoEnvio,
-        //         idPedido
-        //     }
-        //     const response = await axios.put(apiLocalKey + "/CambiarEstadoEnvio", body, { headers });
-        //     setReload(!reload);
-
-        // } catch (error) {
-        //     hideLoadingModal();
-        // }
-    }
 
 
     const getSucursales = async () => {
@@ -138,7 +120,7 @@ const ListadoPedidos = () => {
         debugger;
         setFechaSeleccionada(dayjs());
         setEstadoEnvio(0);
-        setSucursal(1);
+        setSucursal(parseInt(import.meta.env.VITE_APP_SUCURSAL_GENERICA));
         setPedidos([]);
         setBusquedaRealizada(false); 
     }

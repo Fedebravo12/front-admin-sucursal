@@ -44,7 +44,7 @@ const FormModal = ({ open, handleClose, onSubmit, register, errors, reset, field
           <CloseIcon />
         </IconButton>
         <Typography id="modal-title" variant="h5" component="h2">
-          { 'Nuevo'}
+          { 'Nueva Sucursal'}
         </Typography>
         <Box mt={3} mb={3}>
           {fields.map((field) => (
