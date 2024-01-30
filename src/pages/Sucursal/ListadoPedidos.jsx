@@ -17,6 +17,7 @@ const ListadoPedidos = () => {
     const [fechaSeleccionada, setFechaSeleccionada] = useState(dayjs());
     const [estadoEnvio, setEstadoEnvio] = useState(0);
     const [expanded, setExpanded] = useState(true);
+    const [reload, setReload] = useState(false);
 
     //defino las fechas minimas y maximas para mostrar en el calendario
     const minDate = dayjs(new Date(2022, 0, 1));
@@ -32,9 +33,9 @@ const ListadoPedidos = () => {
 
 
     useEffect(() => {
-        limpiarFiltros();
+        // limpiarFiltros();
         getPedidos();
-    }, []);
+    }, [reload]);
 
     const onChangeFechaSeleccionada = (fecha) => {
         setFechaSeleccionada(fecha);
