@@ -46,8 +46,6 @@ function GraficoVentasAdministrador() {
   return (
     cantidadVentas.length > 0 & cantidadVentas != undefined ? (
       <>
-
-
         <Box style={{ position: 'relative' }} sx={{ ml: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Typography variant="h5" component="h2" gutterBottom style={{ marginTop: '30px', marginBottom: '30px', textAlign: 'center' }}>
             Cantidad de ventas por sucursal durante el mes actual
