@@ -163,6 +163,7 @@ const ListadoSucursales = () => {
         allowOutsideClick: false,
         title: 'Sucursal agregada correctamente',
         showConfirmButton: true,
+        confirmButtonText: 'Aceptar',
       }).then((result) => {
         if (result.isConfirmed) {
           setReload((prev) => !prev);
